@@ -1,0 +1,3554 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>APD 2026 — Course de Durée | Collège</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1117;
+    --paper: #f5f3ef;
+    --accent: #c8402a;
+    --accent2: #2a6ac8;
+    --green: #1a7a4a;
+    --orange: #d97706;
+    --red: #c8402a;
+    --border: #d4cfc7;
+    --muted: #7a7568;
+    --card: #ffffff;
+    --stripe: #f9f7f4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  h1,h2,h3,h4,.font-display { font-family: 'Syne', sans-serif; }
+
+  /* Header */
+  .app-header {
+    background: var(--ink);
+    color: white;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 3px solid var(--accent);
+  }
+  .app-header .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+  }
+  .app-header .logo span { color: var(--accent); }
+  .app-header .subtitle {
+    font-size: 11px;
+    color: #aaa;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .badge-new {
+    background: var(--accent);
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Layout */
+  .main-wrap { max-width: 1400px; margin: 0 auto; padding: 28px 24px; }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .card-header {
+    background: var(--ink);
+    color: white;
+    padding: 12px 20px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-body { padding: 20px; }
+  .card-header .step-num {
+    background: var(--accent);
+    color: white;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  /* Form controls */
+  label.field-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+  input[type=text], input[type=number], input[type=date], select, textarea {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus { border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(42,106,200,0.1); }
+  input[readonly] { background: var(--stripe); color: var(--muted); }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 18px; border-radius: 6px; border: none; cursor: pointer;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px;
+    letter-spacing: 0.5px; text-transform: uppercase; transition: all 0.15s;
+  }
+  .btn-primary { background: var(--accent2); color: white; }
+  .btn-primary:hover { background: #1e55a8; }
+  .btn-danger { background: var(--accent); color: white; }
+  .btn-danger:hover { background: #a83020; }
+  .btn-success { background: var(--green); color: white; }
+  .btn-success:hover { background: #145e38; }
+  .btn-outline {
+    background: transparent; border: 1.5px solid var(--border);
+    color: var(--ink);
+  }
+  .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); }
+  .btn-sm { padding: 6px 12px; font-size: 11px; }
+
+  /* Table */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th {
+    background: var(--ink); color: white;
+    padding: 10px 10px; text-align: left;
+    font-family: 'Syne', sans-serif; font-weight: 600;
+    font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .data-table td {
+    padding: 9px 10px; border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .data-table tr:nth-child(even) td { background: var(--stripe); }
+  .data-table tr:hover td { background: #ede9e2; }
+  .data-table input[type=text], .data-table input[type=number] {
+    padding: 5px 7px; font-size: 12px; min-width: 55px;
+  }
+
+  /* Profile badges */
+  .niveau-a { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; border-radius: 5px; padding: 2px 9px; font-weight: 700; font-size: 12px; }
+  .niveau-b { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; border-radius: 5px; padding: 2px 9px; font-weight: 700; font-size: 12px; }
+  .niveau-c { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; border-radius: 5px; padding: 2px 9px; font-weight: 700; font-size: 12px; }
+
+  /* Stats cards */
+  .stat-card {
+    background: white; border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px 20px;
+  }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(15,17,23,0.75);
+    z-index: 1000; display: flex; align-items: center; justify-content: center;
+    padding: 20px; backdrop-filter: blur(3px);
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .modal-overlay.active { opacity: 1; pointer-events: all; }
+  .modal-box {
+    background: white; border-radius: 14px; max-width: 820px; width: 100%;
+    max-height: 88vh; overflow-y: auto;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    transform: translateY(20px); transition: transform 0.2s;
+  }
+  .modal-overlay.active .modal-box { transform: translateY(0); }
+  .modal-header {
+    background: var(--ink); color: white; padding: 18px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-radius: 14px 14px 0 0;
+  }
+  .modal-body { padding: 24px; }
+  .close-btn { background: none; border: none; color: #aaa; cursor: pointer; font-size: 22px; line-height: 1; }
+  .close-btn:hover { color: white; }
+
+  /* Divider */
+  .section-divider {
+    display: flex; align-items: center; gap: 14px;
+    margin: 28px 0 20px;
+  }
+  .section-divider span {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px;
+    white-space: nowrap;
+  }
+  .section-divider::before, .section-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* Lap time input */
+  .lap-input { width: 75px !important; min-width: 75px !important; text-align: center; font-size: 12px; }
+  
+  /* Diagnostic box */
+  .diag-box {
+    border-left: 3px solid var(--accent2);
+    background: #f0f5ff; border-radius: 0 6px 6px 0;
+    padding: 12px 16px; margin-bottom: 12px; font-size: 13px;
+  }
+  .rem-box {
+    border-left: 3px solid var(--green);
+    background: #f0faf5; border-radius: 0 6px 6px 0;
+    padding: 12px 16px; font-size: 13px;
+  }
+  .rem-box ul { margin-top: 6px; padding-left: 18px; }
+  .rem-box li { margin-bottom: 4px; }
+
+  /* Radio group */
+  .radio-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .radio-opt {
+    flex: 1; min-width: 80px;
+    border: 2px solid var(--border); border-radius: 7px;
+    padding: 8px 10px; cursor: pointer; text-align: center;
+    transition: all 0.15s; font-size: 12px; font-weight: 600;
+    background: white;
+  }
+  .radio-opt input { display: none; }
+  .radio-opt:has(input:checked) { border-color: var(--accent2); background: #f0f5ff; }
+  .radio-opt .opt-score { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; color: var(--accent2); }
+
+  /* Score display */
+  .score-display {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 18px; color: var(--accent2);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--stripe); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* Tabs */
+  .tab-bar { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 20px; }
+  .tab-btn {
+    padding: 10px 20px; border: none; background: none; cursor: pointer;
+    font-family: 'Syne', sans-serif; font-weight: 600; font-size: 12px;
+    letter-spacing: 0.5px; text-transform: uppercase; color: var(--muted);
+    border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s;
+  }
+  .tab-btn.active { color: var(--accent2); border-bottom-color: var(--accent2); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Tooltip note */
+  .info-tip {
+    display: inline-block; background: var(--stripe); border: 1px solid var(--border);
+    border-radius: 5px; padding: 6px 12px; font-size: 11px; color: var(--muted);
+    margin-top: 6px;
+  }
+  
+  .overflow-x-auto { overflow-x: auto; }
+  select option { font-size: 13px; }
+  
+  @media (max-width: 768px) {
+    .main-wrap { padding: 16px 12px; }
+    .app-header { padding: 14px 16px; flex-wrap: wrap; }
+    .stat-num { font-size: 22px; }
+  }
+
+  /* ===== MODULE NAV ===== */
+  .module-nav {
+    background: #1a1e2b;
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--accent);
+    overflow-x: auto;
+  }
+  .mnav-btn {
+    display: flex; align-items: center; gap: 7px;
+    padding: 13px 22px;
+    background: none; border: none; cursor: pointer;
+    font-family: 'Syne', sans-serif; font-weight: 600; font-size: 12px;
+    letter-spacing: 0.7px; text-transform: uppercase;
+    color: #888; border-bottom: 3px solid transparent;
+    margin-bottom: -2px; white-space: nowrap;
+    transition: all 0.18s;
+  }
+  .mnav-btn:hover { color: #ccc; }
+  .mnav-btn.active { color: white; border-bottom-color: var(--accent); background: rgba(200,64,42,0.07); }
+  .mnav-icon { font-size: 15px; }
+
+  /* ===== MODULE PANELS ===== */
+  .module-panel { display: none; }
+  .module-panel.active { display: block; }
+
+  /* ===== CONDUITES TYPIQUES ===== */
+  .ct-level-tabs { display: flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .ct-level-btn {
+    padding: 9px 22px; border-radius: 7px; border: 2px solid var(--border);
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px;
+    letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer;
+    background: white; transition: all 0.18s;
+  }
+  .ct-level-btn.debutant.active { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+  .ct-level-btn.intermediaire.active { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
+  .ct-level-btn.avance.active { background: #d1fae5; border-color: #6ee7b7; color: #065f46; }
+  .ct-level-btn:not(.active):hover { border-color: var(--accent2); }
+  .ct-panel { display: none; }
+  .ct-panel.active { display: block; }
+
+  .ct-domain-card {
+    border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 16px;
+  }
+  .ct-domain-header {
+    padding: 11px 18px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px;
+    letter-spacing: 0.8px; text-transform: uppercase; display: flex; align-items: center; gap: 9px;
+    color: white;
+  }
+  .ct-domain-header.moteur { background: #1d4ed8; }
+  .ct-domain-header.tactique { background: #7c3aed; }
+  .ct-domain-header.methodologique { background: var(--green); }
+  .ct-domain-header.social { background: #0891b2; }
+  .ct-domain-body { padding: 16px 18px; background: white; }
+
+  .ct-trait-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-bottom: 10px;
+  }
+  .ct-trait-box {
+    border-radius: 7px; padding: 11px 14px; font-size: 13px;
+  }
+  .ct-trait-box.observed { background: #f0f5ff; border-left: 3px solid var(--accent2); }
+  .ct-trait-box.difficulty { background: #fff7ed; border-left: 3px solid var(--orange); }
+  .ct-trait-box.need { background: #f0fdf4; border-left: 3px solid var(--green); }
+  .ct-trait-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 5px;
+  }
+  .ct-tag {
+    display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+    margin: 2px 2px 2px 0;
+  }
+  .ct-tag.red { background: #fee2e2; color: #991b1b; }
+  .ct-tag.orange { background: #fef3c7; color: #92400e; }
+  .ct-tag.green { background: #d1fae5; color: #065f46; }
+  .ct-tag.blue { background: #dbeafe; color: #1e40af; }
+  .ct-tag.purple { background: #ede9fe; color: #5b21b6; }
+  .ct-tag.teal { background: #cffafe; color: #0e7490; }
+
+  .needs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 12px; margin-top: 16px; }
+  .need-card {
+    background: white; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px;
+    border-top: 3px solid;
+  }
+  .need-card h4 { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 7px; }
+  .need-card ul { padding-left: 16px; font-size: 12px; }
+  .need-card li { margin-bottom: 4px; }
+
+  /* ===== PLANIFICATION ===== */
+  .plan-section-title {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; margin-bottom: 6px;
+  }
+  .plan-pill {
+    display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .plan-pill.college { background: #dbeafe; color: #1e40af; }
+  .plan-pill.lycee { background: #ede9fe; color: #5b21b6; }
+
+  .plan-cycle-card {
+    background: white; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 18px;
+  }
+  .plan-cycle-header {
+    background: var(--ink); color: white; padding: 13px 20px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+  .plan-cycle-header .title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; }
+  .plan-cycle-header .meta { font-size: 11px; color: #aaa; }
+  .plan-cycle-body { padding: 20px; }
+
+  .competence-badge {
+    background: #f0f5ff; border: 1.5px solid #bfdbfe; border-radius: 7px; padding: 10px 14px;
+    margin-bottom: 10px; font-size: 13px;
+  }
+  .competence-badge strong { color: var(--accent2); font-family: 'Syne', sans-serif; }
+
+  .chrono-grid {
+    display: grid; grid-template-columns: 40px 1fr 1fr 1fr; gap: 0;
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 12px;
+    margin-top: 14px;
+  }
+  .chrono-cell {
+    padding: 9px 11px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .chrono-cell:last-child { border-right: none; }
+  .chrono-cell.header {
+    background: var(--ink); color: white;
+    font-family: 'Syne', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .chrono-cell.seq-num {
+    background: var(--accent2); color: white; font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 13px; text-align: center; display: flex;
+    align-items: center; justify-content: center;
+  }
+  .chrono-cell.phase-eval { background: #fef3c7; }
+  .chrono-cell.phase-acq { background: #f0f5ff; }
+  .chrono-cell.phase-bilan { background: #d1fae5; }
+  .chrono-row-last .chrono-cell { border-bottom: none; }
+
+  .progress-bar-wrap { margin-top: 10px; }
+  .progress-bar-label {
+    display: flex; justify-content: space-between; font-size: 11px; color: var(--muted);
+    margin-bottom: 4px; font-weight: 600;
+  }
+  .progress-bar-bg {
+    height: 8px; background: var(--stripe); border-radius: 4px; overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%; border-radius: 4px; transition: width 0.6s ease;
+  }
+
+  .obj-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+  .obj-table th {
+    background: #1e293b; color: white; padding: 8px 10px;
+    font-family: 'Syne', sans-serif; font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase; text-align: left;
+  }
+  .obj-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .obj-table tr:nth-child(even) td { background: var(--stripe); }
+
+  .eval-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 12px; margin-top: 14px;
+  }
+  .eval-item {
+    background: white; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px;
+  }
+  .eval-item-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; color: var(--accent2); }
+
+  .download-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--stripe); border: 1.5px solid var(--border); border-radius: 6px;
+    padding: 7px 14px; font-size: 11px; font-weight: 600; cursor: pointer;
+    font-family: 'Syne', sans-serif; text-transform: uppercase; letter-spacing: 0.5px;
+    color: var(--ink); transition: all 0.15s; text-decoration: none;
+  }
+  .download-btn:hover { border-color: var(--accent2); color: var(--accent2); background: #f0f5ff; }
+
+  .aps-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .aps-tab-btn {
+    padding: 7px 16px; border-radius: 6px; border: 1.5px solid var(--border);
+    font-family: 'Syne', sans-serif; font-weight: 600; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.5px; cursor: pointer; background: white; transition: all 0.15s; color: var(--ink);
+  }
+  .aps-tab-btn.active { background: var(--accent2); border-color: var(--accent2); color: white; }
+  .aps-tab-btn:not(.active):hover { border-color: var(--accent2); color: var(--accent2); }
+  .aps-panel { display: none; }
+  .aps-panel.active { display: block; }
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Mono:wght@300;400;500&family=Cabinet+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+/* ── LANDING OVERLAY MACHINERY ── */
+#lp {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #0d1018;
+  transition: opacity 0.65s cubic-bezier(.4,0,.2,1),
+              transform 0.65s cubic-bezier(.4,0,.2,1);
+}
+#lp.lp-hiding {
+  opacity: 0;
+  transform: scale(1.03);
+  pointer-events: none;
+}
+#lp.lp-gone { display: none; }
+
+
+:root {
+  --lp-ink:    #08090c;
+  --lp-deep:   #0d1018;
+  --lp-surface:#131720;
+  --lp-card:   #181d27;
+  --lp-border: rgba(255,255,255,0.07);
+  --lp-gold:   #d4a843;
+  --lp-gold2:  #f0c96a;
+  --lp-ember:  #e05c2a;
+  --lp-sky:    #4a9eff;
+  --lp-green:  #3ecf8e;
+  --lp-muted:  #6b7280;
+  --lp-light:  #e8e6e0;
+  --lp-white:  #f5f3ef;
+}
+
+* {box-sizing:border-box;margin:0;padding:0;}
+html {scroll-behavior:smooth;}
+#lp body {
+  font-family:'Cabinet Grotesk',sans-serif;
+  background:var(--lp-deep);
+  color:var(--lp-white);
+  overflow-x:hidden;
+}
+
+/* custom cursor désactivé - causait blocage de clics */
+#lp #cursor, #lp #cursor-ring { display: none; }
+
+/* ── GRAIN OVERLAY ── */
+#lp .grain {
+  position:fixed;inset:0;pointer-events:none;z-index:1;
+  opacity:0.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:128px 128px;
+}
+
+/* ── NAV ── */
+#lp nav {
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:18px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(13,16,24,0.85);
+  backdrop-filter:blur(20px) saturate(1.4);
+  border-bottom:1px solid var(--lp-border);
+  animation:slideDown 0.8s cubic-bezier(.17,.67,.35,1) both;
+}
+@keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+#lp .nav-logo {
+  font-family:'Fraunces',serif;font-weight:900;font-size:22px;
+  letter-spacing:-1px;display:flex;align-items:center;gap:10px;
+}
+#lp .nav-logo .accent {color:var(--lp-gold);}
+#lp .nav-logo .badge {
+  font-family:'DM Mono',monospace;font-size:9px;font-weight:500;
+  background:var(--lp-gold);color:var(--lp-deep);
+  padding:2px 7px;border-radius:3px;letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+#lp .nav-links {display:flex;gap:32px;align-items:center;}
+#lp .nav-links a {
+  font-size:13px;font-weight:500;color:var(--lp-muted);text-decoration:none;
+  letter-spacing:0.3px;transition:color 0.2s;
+}
+#lp .nav-links a:hover {color:var(--lp-white);}
+#lp .nav-cta {
+  background:var(--lp-gold);color:var(--lp-deep);
+  padding:10px 22px;border-radius:6px;border:none;cursor:pointer;
+  font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:13px;
+  letter-spacing:0.3px;text-decoration:none;transition:all 0.2s;
+  box-shadow:0 0 0 0 rgba(212,168,67,0.4);
+}
+#lp .nav-cta:hover {
+  background:var(--lp-gold2);transform:translateY(-1px);
+  box-shadow:0 8px 32px rgba(212,168,67,0.3);
+}
+
+/* ── HERO ── */
+#lp .hero {
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,168,67,0.06) 0%, transparent 70%),
+             radial-gradient(ellipse 60% 80% at 90% 50%, rgba(74,158,255,0.04) 0%, transparent 60%),
+             var(--lp-deep);
+}
+
+/* Orbital SVG background */
+#lp .hero-orbs {position:absolute;inset:0;pointer-events:none;}
+#lp .hero-orbs svg {width:100%;height:100%;}
+
+/* Animated grid */
+#lp .hero-grid {
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 70%);
+}
+
+#lp .hero-content {
+  position:relative;z-index:2;
+  text-align:center;max-width:920px;padding:120px 24px 80px;
+}
+
+#lp .hero-eyebrow {
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'DM Mono',monospace;font-size:11px;font-weight:400;
+  color:var(--lp-gold);letter-spacing:2.5px;text-transform:uppercase;
+  background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.2);
+  padding:6px 16px;border-radius:100px;margin-bottom:32px;
+  animation:fadeUp 0.8s 0.3s both;
+}
+#lp .hero-eyebrow::before {
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--lp-gold);animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.7)}}
+
+#lp .hero-title {
+  font-family:'Fraunces',serif;font-weight:900;
+  font-size:clamp(42px,7vw,82px);line-height:1.0;
+  letter-spacing:-3px;margin-bottom:28px;
+  animation:fadeUp 0.9s 0.5s both;
+}
+#lp .hero-title em {
+  font-style:italic;color:var(--lp-gold);
+  background:linear-gradient(135deg,var(--lp-gold),var(--lp-gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+#lp .hero-title .line2 {
+  display:block;font-size:clamp(36px,5.5vw,64px);
+  color:var(--lp-light);opacity:0.9;
+}
+
+#lp .hero-sub {
+  font-size:clamp(15px,2vw,18px);color:#9ca3af;line-height:1.7;
+  max-width:640px;margin:0 auto 40px;font-weight:400;
+  animation:fadeUp 0.9s 0.7s both;
+}
+#lp .hero-sub strong {color:var(--lp-light);}
+
+#lp .hero-pills {
+  display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:48px;
+  animation:fadeUp 0.9s 0.85s both;
+}
+#lp .hero-pill {
+  font-size:11px;font-weight:600;letter-spacing:0.5px;
+  padding:5px 14px;border-radius:100px;
+  border:1px solid rgba(255,255,255,0.1);color:#9ca3af;
+  background:rgba(255,255,255,0.03);transition:all 0.2s;
+}
+#lp .hero-pill:hover {border-color:var(--lp-gold);color:var(--lp-gold);background:rgba(212,168,67,0.06);}
+
+#lp .hero-actions {
+  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  animation:fadeUp 0.9s 1s both;
+}
+#lp .btn-hero-primary {
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--lp-gold);color:var(--lp-deep);
+  padding:16px 34px;border-radius:8px;border:none;cursor:pointer;
+  font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:15px;
+  letter-spacing:0.2px;text-decoration:none;
+  transition:all 0.25s;position:relative;overflow:hidden;
+  box-shadow:0 4px 24px rgba(212,168,67,0.25),0 0 0 0 rgba(212,168,67,0.3);
+}
+#lp .btn-hero-primary::after {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.2),transparent);
+  opacity:0;transition:opacity 0.2s;
+}
+#lp .btn-hero-primary:hover {
+  background:var(--lp-gold2);transform:translateY(-2px);
+  box-shadow:0 12px 40px rgba(212,168,67,0.4),0 0 0 4px rgba(212,168,67,0.15);
+}
+#lp .btn-hero-primary:hover::after {opacity:1;}
+#lp .btn-hero-primary .arrow {transition:transform 0.2s;}
+#lp .btn-hero-primary:hover .arrow {transform:translateX(4px);}
+
+#lp .btn-hero-secondary {
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;color:var(--lp-light);
+  padding:16px 28px;border-radius:8px;
+  border:1.5px solid rgba(255,255,255,0.12);
+  font-family:'Cabinet Grotesk',sans-serif;font-weight:600;font-size:15px;
+  text-decoration:none;transition:all 0.2s;cursor:pointer;
+}
+#lp .btn-hero-secondary:hover {border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.05);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* hero scroll indicator */
+#lp .scroll-hint {
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  font-family:'DM Mono',monospace;font-size:10px;color:var(--lp-muted);
+  letter-spacing:1.5px;text-transform:uppercase;
+  animation:fadeUp 1s 1.4s both;
+}
+#lp .scroll-hint-line {
+  width:1px;height:40px;background:linear-gradient(var(--lp-gold),transparent);
+  animation:scrollLine 2s infinite;
+}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ── STATS BAR ── */
+#lp .stats-bar {
+  background:var(--lp-surface);
+  border-top:1px solid var(--lp-border);border-bottom:1px solid var(--lp-border);
+  padding:32px 48px;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:24px;
+}
+#lp .stat-item {text-align:center;}
+#lp .stat-num {
+  font-family:'Fraunces',serif;font-weight:900;font-size:40px;
+  color:var(--lp-gold);letter-spacing:-2px;line-height:1;
+  display:block;margin-bottom:4px;
+}
+#lp .stat-label {font-size:12px;color:var(--lp-muted);font-weight:500;letter-spacing:0.3px;}
+
+/* ── SECTION SHARED ── */
+#lp section {padding:100px 48px;}
+#lp .section-eyebrow {
+  font-family:'DM Mono',monospace;font-size:10px;color:var(--lp-gold);
+  letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;
+}
+#lp .section-eyebrow::before {content:'';flex:none;width:24px;height:1px;background:var(--lp-gold);}
+#lp .section-title {
+  font-family:'Fraunces',serif;font-weight:900;
+  font-size:clamp(32px,4.5vw,54px);line-height:1.05;
+  letter-spacing:-2px;margin-bottom:16px;
+}
+#lp .section-title em {
+  font-style:italic;
+  background:linear-gradient(135deg,var(--lp-gold),var(--lp-gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+#lp .section-sub {font-size:16px;color:var(--lp-muted);line-height:1.7;max-width:560px;}
+
+#lp .container {max-width:1200px;margin:0 auto;}
+
+/* reveal on scroll */
+#lp .reveal {
+  opacity:0;transform:translateY(40px);
+  transition:opacity 0.8s cubic-bezier(.17,.67,.35,1),transform 0.8s cubic-bezier(.17,.67,.35,1);
+}
+#lp .reveal.visible {opacity:1;transform:translateY(0);}
+#lp .reveal-delay-1 {transition-delay:0.1s;}
+#lp .reveal-delay-2 {transition-delay:0.2s;}
+#lp .reveal-delay-3 {transition-delay:0.3s;}
+#lp .reveal-delay-4 {transition-delay:0.4s;}
+#lp .reveal-delay-5 {transition-delay:0.5s;}
+#lp .reveal-delay-6 {transition-delay:0.6s;}
+
+/* ── FEATURES GRID ── */
+#lp .features-section {background:var(--lp-deep);}
+#lp .features-grid {
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:2px;background:var(--lp-border);
+  border:1px solid var(--lp-border);border-radius:16px;overflow:hidden;
+  margin-top:64px;
+}
+#lp .feature-card {
+  background:var(--lp-card);padding:36px 32px;
+  position:relative;overflow:hidden;
+  transition:background 0.3s;
+  cursor:default;
+}
+#lp .feature-card::before {
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(212,168,67,0.08) 0%, transparent 60%);
+  opacity:0;transition:opacity 0.4s;pointer-events:none;
+}
+#lp .feature-card:hover::before {opacity:1;}
+#lp .feature-card:hover {background:#1c2130;}
+#lp .feature-icon {
+  width:48px;height:48px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;margin-bottom:20px;
+  background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.15);
+  transition:transform 0.3s,background 0.3s;
+}
+#lp .feature-card:hover .feature-icon {transform:scale(1.1);background:rgba(212,168,67,0.15);}
+#lp .feature-title {
+  font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:17px;
+  margin-bottom:10px;color:var(--lp-white);
+}
+#lp .feature-desc {font-size:13px;color:var(--lp-muted);line-height:1.7;}
+#lp .feature-tag {
+  display:inline-block;margin-top:16px;
+  font-family:'DM Mono',monospace;font-size:9px;
+  color:var(--lp-gold);letter-spacing:1.5px;text-transform:uppercase;
+  padding:3px 10px;border-radius:100px;
+  background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.15);
+}
+
+/* ── WHY SECTION ── */
+#lp .why-section {
+  background:var(--lp-surface);
+  position:relative;overflow:hidden;
+}
+#lp .why-section::before {
+  content:'';position:absolute;top:-200px;right:-200px;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle, rgba(212,168,67,0.05) 0%, transparent 70%);
+  pointer-events:none;
+}
+#lp .why-layout {
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;
+  align-items:center;margin-top:64px;
+}
+@media(max-width:768px){.why-layout{grid-template-columns:1fr;gap:48px;}}
+#lp .why-list {display:flex;flex-direction:column;gap:0;}
+#lp .why-item {
+  display:flex;gap:20px;align-items:flex-start;
+  padding:24px 0;
+  border-bottom:1px solid var(--lp-border);
+  cursor:default;
+  transition:padding-left 0.25s;
+}
+#lp .why-item:hover {padding-left:8px;}
+#lp .why-item:last-child {border-bottom:none;}
+#lp .why-dot {
+  flex-shrink:0;width:40px;height:40px;border-radius:10px;
+  background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;margin-top:2px;
+  transition:background 0.2s,transform 0.2s;
+}
+#lp .why-item:hover .why-dot {background:rgba(212,168,67,0.18);transform:rotate(5deg);}
+#lp .why-text h4 {font-weight:800;font-size:16px;margin-bottom:5px;color:var(--lp-white);}
+#lp .why-text p {font-size:13px;color:var(--lp-muted);line-height:1.6;}
+
+/* Visual panel (right side of why) */
+#lp .why-visual {
+  position:relative;border-radius:20px;overflow:hidden;
+  border:1px solid var(--lp-border);
+  background:var(--lp-card);
+  box-shadow:0 40px 100px rgba(0,0,0,0.5);
+}
+#lp .why-visual-header {
+  background:var(--lp-deep);padding:14px 20px;
+  display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid var(--lp-border);
+}
+#lp .wv-dot {width:10px;height:10px;border-radius:50%;}
+#lp .why-visual-body {padding:24px;}
+#lp .mini-stat-grid {display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+#lp .mini-stat {
+  background:var(--lp-surface);border-radius:10px;padding:16px;
+  border:1px solid var(--lp-border);
+}
+#lp .mini-stat-val {
+  font-family:'Fraunces',serif;font-weight:900;font-size:28px;color:var(--lp-gold);
+  letter-spacing:-1.5px;line-height:1;margin-bottom:3px;
+}
+#lp .mini-stat-label {font-size:10px;color:var(--lp-muted);font-weight:500;letter-spacing:0.3px;}
+#lp .mini-bar-group {display:flex;flex-direction:column;gap:8px;}
+#lp .mini-bar-row {display:flex;align-items:center;gap:10px;}
+#lp .mini-bar-label {font-size:11px;color:var(--lp-muted);width:80px;flex-shrink:0;}
+#lp .mini-bar-bg {flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;}
+#lp .mini-bar-fill {height:100%;border-radius:3px;transition:width 1.5s cubic-bezier(.17,.67,.35,1);}
+#lp .mini-bar-val {font-size:11px;color:var(--lp-muted);width:30px;text-align:right;}
+
+/* ── APS CAROUSEL ── */
+#lp .aps-section {background:var(--lp-deep);padding:100px 0;}
+#lp .aps-header {padding:0 48px;margin-bottom:56px;}
+#lp .aps-track-wrap {overflow:hidden;position:relative;}
+#lp .aps-track-wrap::before, #lp .aps-track-wrap::after {
+  content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none;
+}
+#lp .aps-track-wrap::before {left:0;background:linear-gradient(90deg,var(--lp-deep),transparent);}
+#lp .aps-track-wrap::after {right:0;background:linear-gradient(-90deg,var(--lp-deep),transparent);}
+#lp .aps-track {
+  display:flex;gap:16px;padding:8px 48px;
+  animation:scrollTrack 28s linear infinite;
+  width:max-content;
+}
+#lp .aps-track:hover {animation-play-state:paused;}
+@keyframes scrollTrack{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+#lp .aps-card {
+  flex-shrink:0;width:200px;
+  background:var(--lp-card);border:1px solid var(--lp-border);border-radius:14px;
+  padding:24px 20px;text-align:center;
+  transition:all 0.3s;cursor:default;
+}
+#lp .aps-card:hover {
+  border-color:rgba(212,168,67,0.3);transform:translateY(-6px);
+  background:#1c2130;box-shadow:0 20px 60px rgba(0,0,0,0.4);
+}
+#lp .aps-emoji {font-size:36px;margin-bottom:12px;display:block;}
+#lp .aps-name {font-weight:800;font-size:14px;margin-bottom:4px;}
+#lp .aps-cat {font-size:11px;color:var(--lp-muted);font-family:'DM Mono',monospace;letter-spacing:0.5px;}
+
+/* ── TESTIMONIALS ── */
+#lp .testimonials-section {background:var(--lp-surface);}
+#lp .testimonials-grid {
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:20px;margin-top:56px;
+}
+#lp .testimonial-card {
+  background:var(--lp-card);border:1px solid var(--lp-border);border-radius:16px;
+  padding:32px 28px;position:relative;
+  transition:transform 0.3s,border-color 0.3s;cursor:default;
+}
+#lp .testimonial-card:hover {transform:translateY(-4px);border-color:rgba(212,168,67,0.2);}
+#lp .testimonial-card::before {
+  content:'❝';position:absolute;top:20px;right:24px;
+  font-size:48px;color:rgba(212,168,67,0.08);font-family:'Fraunces',serif;line-height:1;
+}
+#lp .test-stars {color:var(--lp-gold);font-size:14px;margin-bottom:16px;letter-spacing:2px;}
+#lp .test-text {font-size:14px;color:#c9c5bc;line-height:1.75;margin-bottom:24px;font-style:italic;}
+#lp .test-author {display:flex;align-items:center;gap:12px;}
+#lp .test-avatar {
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--lp-gold),var(--lp-ember));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:15px;color:var(--lp-deep);flex-shrink:0;
+}
+#lp .test-name {font-weight:700;font-size:14px;}
+#lp .test-role {font-size:11px;color:var(--lp-muted);}
+
+/* ── CTA FINAL ── */
+#lp .cta-section {
+  background:var(--lp-deep);text-align:center;
+  position:relative;overflow:hidden;
+  padding:120px 48px;
+}
+#lp .cta-section::before {
+  content:'';position:absolute;top:50%;left:50%;
+  width:800px;height:400px;border-radius:50%;
+  background:radial-gradient(ellipse, rgba(212,168,67,0.08) 0%, transparent 70%);
+  transform:translate(-50%,-50%);pointer-events:none;
+}
+#lp .cta-section::after {
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:1px;background:linear-gradient(90deg,transparent,var(--lp-gold),transparent);
+}
+#lp .cta-section .section-title {font-size:clamp(36px,5vw,60px);margin-bottom:20px;}
+#lp .cta-section .section-sub {margin:0 auto 48px;font-size:17px;}
+#lp .cta-logos {
+  display:flex;justify-content:center;align-items:center;gap:32px;
+  flex-wrap:wrap;margin-top:60px;opacity:0.4;
+}
+#lp .cta-logo-item {
+  font-family:'DM Mono',monospace;font-size:11px;color:var(--lp-muted);
+  letter-spacing:2px;text-transform:uppercase;
+}
+
+/* ── FOOTER ── */
+#lp footer {
+  background:var(--lp-ink);border-top:1px solid var(--lp-border);
+  padding:36px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+#lp .footer-logo {
+  font-family:'Fraunces',serif;font-weight:900;font-size:18px;letter-spacing:-1px;
+}
+#lp .footer-logo span {color:var(--lp-gold);}
+#lp .footer-copy {font-size:12px;color:var(--lp-muted);}
+#lp .footer-badge {
+  font-family:'DM Mono',monospace;font-size:9px;color:var(--lp-gold);
+  letter-spacing:2px;text-transform:uppercase;
+  background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.2);
+  padding:4px 12px;border-radius:100px;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  #lp nav{padding:16px 24px;}
+  #lp .nav-links{display:none;}
+  #lp section{padding:72px 24px;}
+  #lp .stats-bar{padding:24px;}
+  #lp .aps-header{padding:0 24px;}
+  #lp footer{padding:28px 24px;}
+  #lp .cta-section{padding:80px 24px;}
+}
+@media(max-width:600px){
+  #lp .hero-title{font-size:38px;letter-spacing:-1.5px;}
+}
+
+/* ── ANIMATED ORBITAL ── */
+#lp .orbital-container {
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:900px;height:900px;pointer-events:none;
+}
+#lp .orb {
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  border:1px solid;border-radius:50%;
+  animation:rotate linear infinite;
+}
+#lp .orb-1 {width:300px;height:300px;border-color:rgba(212,168,67,0.06);animation-duration:20s;}
+#lp .orb-2 {width:500px;height:500px;border-color:rgba(74,158,255,0.04);animation-duration:35s;animation-direction:reverse;}
+#lp .orb-3 {width:700px;height:700px;border-color:rgba(212,168,67,0.03);animation-duration:50s;}
+#lp .orb-dot {
+  position:absolute;width:6px;height:6px;border-radius:50%;
+  background:var(--lp-gold);top:0;left:50%;margin-left:-3px;margin-top:-3px;
+}
+#lp .orb-2 .orb-dot {background:var(--lp-sky);width:4px;height:4px;margin-left:-2px;margin-top:-2px;}
+#lp .orb-3 .orb-dot {background:var(--lp-ember);width:3px;height:3px;display:none;}
+@keyframes rotate{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* ── FLOATING PARTICLES ── */
+#lp .particles {position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+#lp .particle {
+  position:absolute;border-radius:50%;
+  background:var(--lp-gold);opacity:0;
+  animation:floatParticle linear infinite;
+}
+@keyframes floatParticle{
+  0%{opacity:0;transform:translateY(0) scale(0)}
+  10%{opacity:0.4}
+  90%{opacity:0.1}
+  100%{opacity:0;transform:translateY(-120vh) scale(1)}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!--  LANDING PAGE — overlay, aucune modif sur APD  -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="lp">
+
+
+<div class="grain"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ══════════════════ NAV ══════════════════ -->
+<nav>
+  <div class="nav-logo">
+    APD <span class="accent">2026</span>
+    <span class="badge">Beta</span>
+  </div>
+  <div class="nav-links">
+    <a href="#features">Fonctionnalités</a>
+    <a href="#why">Avantages</a>
+    <a href="#aps">APS</a>
+    <a href="#testimonials">Témoignages</a>
+  </div>
+  <a href="#" onclick="lpLancer(event)" class="nav-cta">Accéder à la plateforme →</a>
+</nav>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+
+  <!-- Orbital background -->
+  <div class="orbital-container">
+    <div class="orb orb-1"><div class="orb-dot"></div></div>
+    <div class="orb orb-2"><div class="orb-dot"></div></div>
+    <div class="orb orb-3"><div class="orb-dot"></div></div>
+  </div>
+
+  <!-- Floating particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Plateforme EPS · Maroc · OP 2009</div>
+
+    <h1 class="hero-title">
+      La plateforme <em>intelligente</em>
+      <span class="line2">de l'enseignant EPS</span>
+    </h1>
+
+    <p class="hero-sub">
+      Planification, évaluation et accompagnement pédagogique en EPS.
+      <strong>Conçu pour les enseignants marocains.</strong>
+      Conforme aux Orientations Pédagogiques 2007/2009.
+    </p>
+
+    <div class="hero-pills">
+      <span class="hero-pill">Projets de cycle</span>
+      <span class="hero-pill">Évaluation /20</span>
+      <span class="hero-pill">Conduites typiques</span>
+      <span class="hero-pill">Planification dynamique</span>
+      <span class="hero-pill">Barèmes officiels</span>
+      <span class="hero-pill">Différenciation A/B/C</span>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#" onclick="lpLancer(event)" class="btn-hero-primary">
+        Commencer maintenant <span class="arrow">→</span>
+      </a>
+      <a href="#features" class="btn-hero-secondary">
+        Découvrir les fonctionnalités
+      </a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Défiler</span>
+    <div class="scroll-hint-line"></div>
+  </div>
+</section>
+
+<!-- ══════════════════ STATS BAR ══════════════════ -->
+<div class="stats-bar">
+  <div class="stat-item reveal">
+    <span class="stat-num" data-target="6">0</span>
+    <div class="stat-label">Niveaux scolaires couverts</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-1">
+    <span class="stat-num" data-target="15">0</span>
+    <div class="stat-label">APS planifiables</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-2">
+    <span class="stat-num" data-target="16">0</span>
+    <div class="stat-label">Séances max par cycle</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-3">
+    <span class="stat-num" data-target="100" data-suffix="%">0</span>
+    <div class="stat-label">Conforme OP Maroc 2009</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-4">
+    <span class="stat-num" data-target="3">0</span>
+    <div class="stat-label">Modules intégrés</div>
+  </div>
+</div>
+
+<!-- ══════════════════ FEATURES ══════════════════ -->
+<section class="features-section" id="features">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">Fonctionnalités</div>
+      <h2 class="section-title">Tout ce dont vous avez <em>besoin</em></h2>
+      <p class="section-sub">Trois modules intégrés pour couvrir l'intégralité du travail pédagogique en EPS.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card reveal reveal-delay-1" onmousemove="trackMouse(event,this)">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">APD — Évaluation en temps réel</div>
+        <p class="feature-desc">Saisie des temps de tour, calcul automatique des notes /20, barèmes officiels, détection de niveau A/B/C et export CSV instantané.</p>
+        <span class="feature-tag">Course de Durée · Collège</span>
+      </div>
+      <div class="feature-card reveal reveal-delay-2" onmousemove="trackMouse(event,this)">
+        <div class="feature-icon">🧭</div>
+        <div class="feature-title">Conduites Typiques des Élèves</div>
+        <p class="feature-desc">Référentiel complet par niveau (Débutant / Intermédiaire / Avancé) sur 4 domaines : moteur, tactique, méthodologique et social.</p>
+        <span class="feature-tag">OP 2009 · Référentiel</span>
+      </div>
+      <div class="feature-card reveal reveal-delay-3" onmousemove="trackMouse(event,this)">
+        <div class="feature-icon">📋</div>
+        <div class="feature-title">Planification Dynamique du Cycle</div>
+        <p class="feature-desc">Générez un projet de cycle complet en secondes — de 4 à 16 séances, collège ou lycée. Fiches séances, chronogramme et export CSV.</p>
+        <span class="feature-tag">Collège · Lycée · IA Pédagogique</span>
+      </div>
+      <div class="feature-card reveal reveal-delay-1" onmousemove="trackMouse(event,this)">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Tableau de Bord Statistiques</div>
+        <p class="feature-desc">Visualisez la distribution des niveaux, la moyenne de classe, le taux de réussite et les graphiques de performance en un coup d'oeil.</p>
+        <span class="feature-tag">Dashboard · Chart.js</span>
+      </div>
+      <div class="feature-card reveal reveal-delay-2" onmousemove="trackMouse(event,this)">
+        <div class="feature-icon">🔧</div>
+        <div class="feature-title">Barèmes Entièrement Configurables</div>
+        <p class="feature-desc">Modifiez directement les seuils de performance, de régularité et de cible pour chaque niveau scolaire. Les calculs se mettent à jour instantanément.</p>
+        <span class="feature-tag">1ASC · 2ASC · 3ASC</span>
+      </div>
+      <div class="feature-card reveal reveal-delay-3" onmousemove="trackMouse(event,this)">
+        <div class="feature-icon">📥</div>
+        <div class="feature-title">Import / Export CSV</div>
+        <p class="feature-desc">Importez une liste de classe complète, exportez les résultats et les projets de cycle en CSV. Compatible avec Excel et tout tableur.</p>
+        <span class="feature-tag">CSV · Excel · Tableur</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ WHY ══════════════════ -->
+<section class="why-section" id="why">
+  <div class="container">
+    <div class="why-layout">
+      <div>
+        <div class="reveal">
+          <div class="section-eyebrow">Pourquoi APD 2026</div>
+          <h2 class="section-title">Pensé <em>pour et par</em> les enseignants</h2>
+        </div>
+        <div class="why-list">
+          <div class="why-item reveal reveal-delay-1">
+            <div class="why-dot">⏱️</div>
+            <div class="why-text">
+              <h4>Gain de temps considérable</h4>
+              <p>Générez un projet de cycle complet en quelques secondes. Finies les heures de préparation manuelle.</p>
+            </div>
+          </div>
+          <div class="why-item reveal reveal-delay-2">
+            <div class="why-dot">🎯</div>
+            <div class="why-text">
+              <h4>Cohérence pédagogique garantie</h4>
+              <p>Chaque séance s'inscrit dans une progression logique respectant les compétences et les indicateurs officiels.</p>
+            </div>
+          </div>
+          <div class="why-item reveal reveal-delay-3">
+            <div class="why-dot">🔀</div>
+            <div class="why-text">
+              <h4>Personnalisation totale</h4>
+              <p>Niveau, nombre de séances, piste, durée — tout se configure. La plateforme s'adapte à votre réalité terrain.</p>
+            </div>
+          </div>
+          <div class="why-item reveal reveal-delay-4">
+            <div class="why-dot">🇲🇦</div>
+            <div class="why-text">
+              <h4>Conforme aux référentiels marocains</h4>
+              <p>Orientations Pédagogiques 2007/2009, barèmes officiels, compétences disciplinaires et transversales intégrés.</p>
+            </div>
+          </div>
+          <div class="why-item reveal reveal-delay-5">
+            <div class="why-dot">💡</div>
+            <div class="why-text">
+              <h4>Innovation sans complexité</h4>
+              <p>Interface intuitive, zéro installation, accès immédiat depuis n'importe quel navigateur.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live preview panel -->
+      <div class="why-visual reveal reveal-delay-2">
+        <div class="why-visual-header">
+          <div class="wv-dot" style="background:#e05c2a;"></div>
+          <div class="wv-dot" style="background:var(--lp-gold);margin-left:4px;"></div>
+          <div class="wv-dot" style="background:var(--lp-green);margin-left:4px;"></div>
+          <span style="margin-left:12px;font-family:'DM Mono',monospace;font-size:10px;color:var(--lp-muted);">APD 2026 — Tableau de bord</span>
+        </div>
+        <div class="why-visual-body">
+          <div class="mini-stat-grid">
+            <div class="mini-stat">
+              <div class="mini-stat-val" id="vs-total">0</div>
+              <div class="mini-stat-label">Élèves analysés</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-stat-val" id="vs-avg">—</div>
+              <div class="mini-stat-label">Moyenne /20</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-stat-val" style="color:var(--lp-green);" id="vs-a">0</div>
+              <div class="mini-stat-label">Niveau A</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-stat-val" style="color:#f97316;" id="vs-b">0</div>
+              <div class="mini-stat-label">Niveau B</div>
+            </div>
+          </div>
+          <div class="mini-bar-group">
+            <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--lp-muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Indicateurs du cycle</div>
+            <div class="mini-bar-row">
+              <span class="mini-bar-label">FT · Cible</span>
+              <div class="mini-bar-bg"><div class="mini-bar-fill" style="width:0%;background:var(--lp-green);" data-w="72"></div></div>
+              <span class="mini-bar-val">72%</span>
+            </div>
+            <div class="mini-bar-row">
+              <span class="mini-bar-label">Régularité</span>
+              <div class="mini-bar-bg"><div class="mini-bar-fill" style="width:0%;background:var(--lp-sky);" data-w="65"></div></div>
+              <span class="mini-bar-val">65%</span>
+            </div>
+            <div class="mini-bar-row">
+              <span class="mini-bar-label">Réussite</span>
+              <div class="mini-bar-bg"><div class="mini-bar-fill" style="width:0%;background:var(--lp-gold);" data-w="83"></div></div>
+              <span class="mini-bar-val">83%</span>
+            </div>
+            <div class="mini-bar-row">
+              <span class="mini-bar-label">VMA +0.5</span>
+              <div class="mini-bar-bg"><div class="mini-bar-fill" style="width:0%;background:var(--lp-ember);" data-w="58"></div></div>
+              <span class="mini-bar-val">58%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ APS CAROUSEL ══════════════════ -->
+<section class="aps-section" id="aps">
+  <div class="aps-header reveal">
+    <div class="section-eyebrow">Activités Physiques et Sportives</div>
+    <h2 class="section-title">Une plateforme pour <em>toutes les APS</em></h2>
+  </div>
+
+  <div class="aps-track-wrap">
+    <div class="aps-track" id="aps-track">
+      <!-- Cards duplicated for infinite scroll -->
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ TESTIMONIALS ══════════════════ -->
+<section class="testimonials-section" id="testimonials">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:8px;">
+      <div class="section-eyebrow" style="justify-content:center;">Retours d'expérience</div>
+      <h2 class="section-title">Ce que disent les <em>enseignants</em></h2>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-text">« APD 2026 m'a permis de diviser par trois le temps de préparation de mes projets de cycle. La planification dynamique est une révolution pour ma pratique professionnelle. »</p>
+        <div class="test-author">
+          <div class="test-avatar">KA</div>
+          <div>
+            <div class="test-name">Karim Alaoui</div>
+            <div class="test-role">Prof EPS · Collège Ibn Khaldoun, Marrakech</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-text">« Les conduites typiques par niveau m'aident à différencier vraiment mon enseignement. Je vois enfin mes élèves évoluer de manière structurée et cohérente. »</p>
+        <div class="test-author">
+          <div class="test-avatar" style="background:linear-gradient(135deg,var(--lp-sky),var(--lp-green));">NB</div>
+          <div>
+            <div class="test-name">Nadia Benali</div>
+            <div class="test-role">Prof EPS · Lycée Al Khawarizmi, Casablanca</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-3">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-text">« L'outil de calcul automatique des notes /20 avec les barèmes officiels est exactement ce dont j'avais besoin. Fiable, rapide, conforme aux OP marocaines. »</p>
+        <div class="test-author">
+          <div class="test-avatar" style="background:linear-gradient(135deg,var(--lp-ember),#f97316);">YM</div>
+          <div>
+            <div class="test-name">Youssef Mansouri</div>
+            <div class="test-role">Prof EPS · Collège Moulay Hassan, Rabat</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ CTA FINAL ══════════════════ -->
+<section class="cta-section">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="reveal">
+      <div class="section-eyebrow" style="justify-content:center;">Prêt à commencer ?</div>
+      <h2 class="section-title">Accédez à la plateforme <em>maintenant</em></h2>
+      <p class="section-sub">Aucune installation. Aucun compte requis. Accès immédiat à tous les outils pédagogiques.</p>
+    </div>
+    <div class="hero-actions reveal reveal-delay-2">
+      <a href="#" onclick="lpLancer(event)" class="btn-hero-primary" style="font-size:16px;padding:18px 40px;">
+        Accéder à la plateforme <span class="arrow">→</span>
+      </a>
+    </div>
+    <div class="cta-logos reveal reveal-delay-3">
+      <span class="cta-logo-item">Orientations Pédagogiques 2009</span>
+      <span class="cta-logo-item">·</span>
+      <span class="cta-logo-item">Ministère de l'Éducation Nationale</span>
+      <span class="cta-logo-item">·</span>
+      <span class="cta-logo-item">Collège &amp; Lycée</span>
+      <span class="cta-logo-item">·</span>
+      <span class="cta-logo-item">EPS Maroc</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <div class="footer-logo">APD <span>2026</span></div>
+  <div class="footer-copy">© 2026 — Plateforme Intelligente EPS · Maroc · OP 2009</div>
+  <div class="footer-badge">Version Beta</div>
+</footer>
+
+<script>
+// ── OUVRIR LA PLATEFORME ──
+function ouvrirPlateforme(e) {
+  // Fonctionne que les fichiers soient dans le même dossier ou non
+  // On laisse le comportement href normal (navigation directe)
+  // Si vous êtes dans Claude.ai, téléchargez les deux fichiers dans le même dossier
+}
+
+// ── FEATURE CARD MOUSE GLOW ──
+function trackMouse(e, el) {
+  const r = el.getBoundingClientRect();
+  const x = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%';
+  const y = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
+  el.style.setProperty('--mx', x);
+  el.style.setProperty('--my', y);
+}
+
+// ── PARTICLES ──
+const pContainer = document.getElementById('particles');
+function spawnParticle() {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 3 + 1;
+  const left = Math.random() * 100;
+  const dur = Math.random() * 12 + 8;
+  const delay = Math.random() * 6;
+  p.style.cssText = `width:${size}px;height:${size}px;left:${left}%;bottom:0;animation-duration:${dur}s;animation-delay:${delay}s;`;
+  pContainer.appendChild(p);
+  setTimeout(() => { if (p.parentNode) p.remove(); }, (dur + delay) * 1000 + 500);
+}
+for (let i = 0; i < 30; i++) spawnParticle();
+setInterval(spawnParticle, 600);
+
+// ── REVEAL ON SCROLL ──
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+reveals.forEach(r => obs.observe(r));
+
+// ── ANIMATED COUNTERS ──
+function animCounter(el, target, suffix) {
+  let current = 0;
+  const step = target / 60;
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = Math.round(current) + (suffix || '');
+    if (current >= target) clearInterval(timer);
+  }, 25);
+}
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      animCounter(el, +el.dataset.target, el.dataset.suffix || '');
+      counterObs.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObs.observe(el));
+
+// ── LIVE PREVIEW PANEL ──
+const liveObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    let n = 0;
+    const timer = setInterval(() => {
+      n = Math.min(n + 1, 28);
+      const totalEl = document.getElementById('vs-total');
+      const avgEl   = document.getElementById('vs-avg');
+      const aEl     = document.getElementById('vs-a');
+      const bEl     = document.getElementById('vs-b');
+      if (totalEl) totalEl.textContent = n;
+      if (avgEl)   avgEl.textContent = (12.4 + n * 0.02).toFixed(1);
+      if (aEl)     aEl.textContent = Math.floor(n * 0.28);
+      if (bEl)     bEl.textContent = Math.floor(n * 0.46);
+      if (n >= 28) clearInterval(timer);
+    }, 60);
+    document.querySelectorAll('.mini-bar-fill').forEach(bar => {
+      setTimeout(() => { bar.style.width = bar.dataset.w + '%'; }, 300);
+    });
+    liveObs.unobserve(e.target);
+  });
+}, { threshold: 0.3 });
+const whyVis = document.querySelector('.why-visual');
+if (whyVis) liveObs.observe(whyVis);
+
+// ── APS TRACK ──
+const apsData = [
+  { emoji: '🏃', name: 'Course de Durée',   cat: 'Athlétisme' },
+  { emoji: '⚽', name: 'Football',           cat: 'Sports collectifs' },
+  { emoji: '🏐', name: 'Volley-ball',        cat: 'Sports collectifs' },
+  { emoji: '🏀', name: 'Basket-ball',        cat: 'Sports collectifs' },
+  { emoji: '🤸', name: 'Gymnastique',        cat: 'Activités gymniques' },
+  { emoji: '🏊', name: 'Natation',           cat: 'Activités aquatiques' },
+  { emoji: '🎾', name: 'Tennis de table',    cat: 'Sports de raquette' },
+  { emoji: '🏋️', name: 'Haltérophilie',     cat: 'Sports de force' },
+  { emoji: '🤼', name: 'Lutte',              cat: 'Arts martiaux' },
+  { emoji: '🥊', name: 'Boxe',              cat: 'Arts martiaux' },
+  { emoji: '💨', name: 'Course de vitesse',  cat: 'Athlétisme' },
+  { emoji: '🦘', name: 'Saut en longueur',   cat: 'Athlétisme' },
+  { emoji: '🎽', name: 'Cross-country',      cat: 'Athlétisme' },
+  { emoji: '🤾', name: 'Handball',           cat: 'Sports collectifs' },
+  { emoji: '🎯', name: 'Lancer du javelot',  cat: 'Athlétisme' },
+];
+const track = document.getElementById('aps-track');
+if (track) {
+  const doubled = [...apsData, ...apsData];
+  doubled.forEach(a => {
+    const card = document.createElement('div');
+    card.className = 'aps-card';
+    card.innerHTML = `<span class="aps-emoji">${a.emoji}</span><div class="aps-name">${a.name}</div><div class="aps-cat">${a.cat}</div>`;
+    track.appendChild(card);
+  });
+}
+
+// ── SMOOTH SCROLL for anchor links ──
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// ── PARALLAX HERO ──
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  const heroContent = document.querySelector('.hero-content');
+  const orbital = document.querySelector('.orbital-container');
+  if (heroContent) heroContent.style.transform = `translateY(${y * 0.25}px)`;
+  if (orbital) orbital.style.transform = `translate(-50%,-50%) rotate(${y * 0.02}deg)`;
+});
+</script>
+
+</div>
+<!-- ═══════════════════════════════════════════════ -->
+
+<!-- ===== APP HEADER ===== -->
+<header class="app-header">
+  <button onclick="lpRetour()" title="Retour à l'accueil" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.75);padding:5px 13px;border-radius:5px;cursor:pointer;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;flex-shrink:0;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.16)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">← Accueil</button>
+  <div>
+    <div class="logo">APD <span>2026</span></div>
+    <div class="subtitle">Outil d'Aide à la Décision Pédagogique</div>
+  </div>
+  <div style="flex:1">
+    <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;">Course de Durée</div>
+    <div style="font-size:11px;color:#aaa;">Module EPS — Collège · Orientations Pédagogiques 2009</div>
+  </div>
+  <span class="badge-new">Collège</span>
+</header>
+
+<!-- ===== MODULE NAV ===== -->
+<nav class="module-nav">
+  <button class="mnav-btn active" onclick="showModule('mod-apd', this)">
+    <span class="mnav-icon">⚡</span> APD — Évaluation
+  </button>
+  <button class="mnav-btn" onclick="showModule('mod-conduites', this)">
+    <span class="mnav-icon">🧭</span> Conduites Typiques
+  </button>
+  <button class="mnav-btn" onclick="showModule('mod-planif', this)">
+    <span class="mnav-icon">📋</span> Planification Pédagogique
+  </button>
+</nav>
+
+<div class="main-wrap">
+
+<!-- MODULE : APD ÉVALUATION -->
+<div id="mod-apd" class="module-panel active">
+  <!-- ===== SECTION 1 : CONFIGURATION ===== -->
+  <div class="card" style="margin-bottom:22px;">
+    <div class="card-header"><span class="step-num">1</span> Configuration de la Séance</div>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;">
+        <div>
+          <label class="field-label">Niveau / Classe</label>
+          <select id="cfg-niveau" onchange="updateConfig(); renderBaremeTables();">
+            <option value="1ASC">1ère Année Collège (1ASC)</option>
+            <option value="2ASC">2ème Année Collège (2ASC)</option>
+            <option value="3ASC">3ème Année Collège (3ASC)</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Distance Piste (m)</label>
+          <input type="number" id="cfg-piste" value="200" min="50" max="500" step="50" onchange="updateConfig()" placeholder="ex: 200"/>
+        </div>
+        <div>
+          <label class="field-label">Date de la Séance</label>
+          <input type="date" id="cfg-date"/>
+        </div>
+        <div>
+          <label class="field-label">Séance N°</label>
+          <input type="text" id="cfg-seance" placeholder="ex: 3"/>
+        </div>
+        <div>
+          <label class="field-label">Établissement</label>
+          <input type="text" id="cfg-etab" placeholder="Nom de l'établissement"/>
+        </div>
+        <div>
+          <label class="field-label">Professeur</label>
+          <input type="text" id="cfg-prof" placeholder="Nom du professeur"/>
+        </div>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:20px;flex-wrap:wrap;">
+        <div class="info-tip">📏 Distance garçons : <strong id="dist-g">1000 m</strong></div>
+        <div class="info-tip">📏 Distance filles : <strong id="dist-f">600 m</strong></div>
+        <div class="info-tip">🔄 Tours garçons : <strong id="tours-g">5</strong></div>
+        <div class="info-tip">🔄 Tours filles : <strong id="tours-f">3</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 2 : SAISIE & BAREMES ===== -->
+  <div class="card" style="margin-bottom:22px;">
+    <div class="card-header"><span class="step-num">2</span> Saisie des Données & Barèmes</div>
+    <div class="card-body">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('tab-saisie',this)">✏️ Saisie Manuelle</button>
+        <button class="tab-btn" onclick="switchTab('tab-csv',this)">📥 Import CSV</button>
+        <button class="tab-btn" onclick="switchTab('tab-bareme',this)">⚙️ Configuration des Barèmes</button>
+      </div>
+
+      <!-- TAB : Saisie manuelle -->
+      <div id="tab-saisie" class="tab-panel active">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:16px;padding:16px;background:var(--stripe);border-radius:8px;border:1px solid var(--border);">
+          <div>
+            <label class="field-label">Nom Prénom</label>
+            <input type="text" id="new-nom" placeholder="ex: Ahmed Alaoui"/>
+          </div>
+          <div>
+            <label class="field-label">Sexe</label>
+            <select id="new-sexe" onchange="updateNewLapFields()">
+              <option value="M">Masculin (M)</option>
+              <option value="F">Féminin (F)</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label">VMA (km/h)</label>
+            <input type="number" id="new-vma" placeholder="ex: 12.5" step="0.1" min="4" max="25" onchange="updateNewLapFields()"/>
+          </div>
+          <div>
+            <label class="field-label">Statut Cible</label>
+            <select id="new-cible">
+              <option value="FT">FT — Finit Total (8 pts)</option>
+              <option value="FP">FP — Finit Partiel (5 pts)</option>
+              <option value="AB">AB — Abandon (2 pts)</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <label class="field-label">Temps réels par tour (MM:SS) — <span id="lap-count-label">0 tours</span></label>
+          <div id="new-laps-container" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+            <span style="color:var(--muted);font-size:12px;">Configurez la piste pour générer les tours</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <div style="flex:1;min-width:200px;">
+            <label class="field-label">Temps Total (auto si tours saisis)</label>
+            <input type="text" id="new-total-time" placeholder="MM:SS ou auto"/>
+          </div>
+          <div style="padding-top:20px;">
+            <button class="btn btn-primary" onclick="addStudent()">➕ Ajouter l'Élève</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB : CSV -->
+      <div id="tab-csv" class="tab-panel">
+        <div style="background:var(--stripe);border:1.5px dashed var(--border);border-radius:8px;padding:20px;text-align:center;margin-bottom:14px;">
+          <div style="font-size:28px;margin-bottom:8px;">📄</div>
+          <div style="font-weight:600;margin-bottom:6px;">Importer un fichier CSV</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:12px;">Format attendu : Nom, Sexe(M/F), VMA, NotePerf, StatutCible(FT/FP/AB), Temps1, Temps2, ...</div>
+          <input type="file" id="csv-file" accept=".csv" onchange="importCSV(event)" style="display:none"/>
+          <button class="btn btn-outline" onclick="document.getElementById('csv-file').click()">📂 Choisir un fichier CSV</button>
+          <button class="btn btn-outline btn-sm" onclick="downloadCSVTemplate()" style="margin-left:8px;">⬇️ Télécharger le modèle</button>
+        </div>
+        <div id="csv-feedback" style="font-size:12px;color:var(--green);"></div>
+      </div>
+
+      <!-- TAB : BAREMES MODIFIABLES -->
+      <div id="tab-bareme" class="tab-panel">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+          💡 Modifiez directement les seuils ci-dessous (en secondes) pour ajuster les notes du niveau sélectionné (<strong id="bareme-level-title">1ASC</strong>). Les changements s'appliqueront instantanément lors des prochains calculs.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+          <!-- Perf Garçons -->
+          <div class="card">
+            <div class="card-header" style="background:#1e293b;">🏃‍♂️ Performance Garçons (/6)</div>
+            <div class="card-body" style="padding:10px; max-height:300px; overflow-y:auto;">
+              <table class="data-table" style="font-size:12px;">
+                <thead><tr><th>Note</th><th>Seuil max (MM:SS)</th></tr></thead>
+                <tbody id="bareme-perf-m-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Perf Filles -->
+          <div class="card">
+            <div class="card-header" style="background:#1e293b;">🏃‍♀️ Performance Filles (/6)</div>
+            <div class="card-body" style="padding:10px; max-height:300px; overflow-y:auto;">
+              <table class="data-table" style="font-size:12px;">
+                <thead><tr><th>Note</th><th>Seuil max (MM:SS)</th></tr></thead>
+                <tbody id="bareme-perf-f-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Régularité -->
+          <div class="card">
+            <div class="card-header" style="background:#1e293b;">⏱️ Régularité (Σ Écarts en sec) (/6)</div>
+            <div class="card-body" style="padding:10px; max-height:300px; overflow-y:auto;">
+              <table class="data-table" style="font-size:12px;">
+                <thead><tr><th>Note</th><th>Σ Écarts max (sec)</th></tr></thead>
+                <tbody id="bareme-reg-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== SECTION 3 : TABLEAU DES ÉLÈVES ===== -->
+  <div class="card" style="margin-bottom:22px;">
+    <div class="card-header" style="justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:8px;"><span class="step-num">3</span> Liste des Élèves & Scores</div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-success btn-sm" onclick="computeAll()">⚡ Calculer Tous</button>
+        <button class="btn btn-outline btn-sm" onclick="exportCSV()">📤 Exporter CSV</button>
+        <button class="btn btn-danger btn-sm" onclick="clearAll()">🗑️ Effacer Tout</button>
+      </div>
+    </div>
+    <div class="card-body" style="padding:0;">
+      <div class="overflow-x-auto">
+        <table class="data-table" id="students-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nom / Prénom</th>
+              <th>Sexe</th>
+              <th>VMA (km/h)</th>
+              <th>Tps Cible/Tour</th>
+              <th>Tours Réels</th>
+              <th>Σ Écarts</th>
+              <th>Note Perf /6</th>
+              <th>Note Régul. /6</th>
+              <th>Note Cible /8</th>
+              <th>NOTE /20</th>
+              <th>Niveau</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="students-tbody">
+            <tr id="empty-row">
+              <td colspan="13" style="text-align:center;color:var(--muted);padding:30px;font-style:italic;">
+                Aucun élève enregistré. Commencez par ajouter des élèves ci-dessus.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4 : TABLEAU DE BORD ===== -->
+  <div id="dashboard" style="display:none;margin-bottom:22px;">
+    <div class="section-divider"><span>📊 Tableau de Bord — Statistiques de Classe</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:20px;">
+      <div class="stat-card" style="border-top:3px solid var(--accent2);">
+        <div class="stat-num" id="stat-total">0</div>
+        <div class="stat-label">Élèves total</div>
+      </div>
+      <div class="stat-card" style="border-top:3px solid #6366f1;">
+        <div class="stat-num" id="stat-avg">—</div>
+        <div class="stat-label">Moyenne classe /20</div>
+      </div>
+      <div class="stat-card" style="border-top:3px solid var(--green);">
+        <div class="stat-num" id="stat-nA" style="color:var(--green);">0</div>
+        <div class="stat-label">Niveau A (>16)</div>
+      </div>
+      <div class="stat-card" style="border-top:3px solid var(--orange);">
+        <div class="stat-num" id="stat-nB" style="color:var(--orange);">0</div>
+        <div class="stat-label">Niveau B (11–16)</div>
+      </div>
+      <div class="stat-card" style="border-top:3px solid var(--red);">
+        <div class="stat-num" id="stat-nC" style="color:var(--red);">0</div>
+        <div class="stat-label">Niveau C (≤10)</div>
+      </div>
+      <div class="stat-card" style="border-top:3px solid #0ea5e9;">
+        <div class="stat-num" id="stat-success">—</div>
+        <div class="stat-label">Taux de réussite</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+      <div class="card">
+        <div class="card-header">Distribution des Niveaux</div>
+        <div class="card-body" style="height:220px;display:flex;align-items:center;justify-content:center;">
+          <canvas id="chart-levels" style="max-height:200px;"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">Distribution des Notes /20</div>
+        <div class="card-body" style="height:220px;display:flex;align-items:center;justify-content:center;">
+          <canvas id="chart-notes" style="max-height:200px;"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.mod-apd -->
+
+<!-- ============================================================ -->
+<!-- MODULE : CONDUITES TYPIQUES DES ÉLÈVES                       -->
+<!-- ============================================================ -->
+<div id="mod-conduites" class="module-panel">
+
+  <div class="section-divider" style="margin-top:8px;"><span>🧭 Conduites Typiques des Élèves — Course de Durée (EPS Maroc 2009)</span></div>
+
+  <!-- Intro -->
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-header"><span class="step-num" style="background:var(--accent2);">i</span> Présentation de la Rubrique</div>
+    <div class="card-body">
+      <p style="font-size:13px;color:var(--muted);line-height:1.7;">
+        Cette rubrique présente les <strong>conduites typiques</strong> observées chez les élèves du collège et du lycée en Course de Durée, classées par niveau (<span class="niveau-c">Débutant</span> / <span class="niveau-b">Intermédiaire</span> / <span class="niveau-a">Avancé</span>). Elle couvre quatre domaines : moteur, tactique, méthodologique et social, en cohérence avec les <em>Orientations Pédagogiques marocaines 2007/2009</em>.
+      </p>
+    </div>
+  </div>
+
+  <!-- Level selector -->
+  <div class="ct-level-tabs">
+    <button class="ct-level-btn debutant active" onclick="ctSwitchLevel('debutant', this)">
+      🔴 Niveau Débutant
+    </button>
+    <button class="ct-level-btn intermediaire" onclick="ctSwitchLevel('intermediaire', this)">
+      🟡 Niveau Intermédiaire
+    </button>
+    <button class="ct-level-btn avance" onclick="ctSwitchLevel('avance', this)">
+      🟢 Niveau Avancé
+    </button>
+  </div>
+
+  <!-- ======= DÉBUTANT ======= -->
+  <div id="ct-debutant" class="ct-panel active">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+      <span class="niveau-c" style="font-size:14px;padding:4px 14px;">Niveau Débutant — Note ≤ 10/20</span>
+      <span style="font-size:12px;color:var(--muted);">Profil observé en début de cycle ou chez les élèves non pratiquants</span>
+    </div>
+
+    <!-- Moteur -->
+    <div class="ct-domain-card">
+      <div class="ct-domain-header moteur">🏃 Domaine Moteur</div>
+      <div class="ct-domain-body">
+        <div class="ct-trait-row">
+          <div class="ct-trait-box observed">
+            <div class="ct-trait-label">Conduites observées</div>
+            <div><span class="ct-tag blue">Départ en sprint</span> <span class="ct-tag blue">Allure anarchique</span> <span class="ct-tag blue">Arrêts fréquents</span> <span class="ct-tag blue">Marche avant la fin</span> <span class="ct-tag blue">Respiration saccadée</span> <span class="ct-tag blue">Posture rigide</span></div>
+          </div>
+          <div class="ct-trait-box difficulty">
+            <div class="ct-trait-label">Difficultés principales</div>
+            <div><span class="ct-tag orange">Gestion de l'effort</span> <span class="ct-tag orange">Régulation de l'allure</span> <span class="ct-tag orange">Tolérance à l'inconfort</span> <span class="ct-tag orange">Contrôle respiratoire</span></div>
+          </div>
+        </div>
+        <div class="ct-trait-box need" style="margin-top:6px;">
+          <div class="ct-trait-label">Besoins d'apprentissage</div>
+          Apprendre à courir lentement et régulièrement · Distinguer effort modéré et épuisement · Utiliser le bip sonore comme régulateur d'allure
+        </div>
+      </div>
+    </div>
+
+    <!-- Tactique -->
+    <div class="ct-domain-card">
+      <div class="ct-domain-header tactique">♟️ Domaine Tactique</div>
+      <div class="ct-domain-body">
+        <div class="ct-trait-row">
+          <div class="ct-trait-box observed">
+            <div class="ct-trait-label">Conduites observées</div>
+            <div><span class="ct-tag purple">Pas de projet de course</span> <span class="ct-tag purple">Réaction aux autres élèves</span> <span class="ct-tag purple">Cible non choisie</span> <span class="ct-tag purple">Aucune gestion des tours</span></div>
+          </div>
+          <div class="ct-trait-box difficulty">
+            <div class="ct-trait-label">Difficultés principales</div>
+            <div><span class="ct-tag orange">Anticipation</span> <span class="ct-tag orange">Choix de la VMA cible</span> <span class="ct-tag orange">Pilotage interne de l'effort</span></div>
+          </div>
+        </div>
+        <div class="ct-trait-box need" style="margin-top:6px;">
+          <div class="ct-trait-label">Besoins d'apprentissage</div>
+          Construire un projet de course simple · Choisir une allure cible en relation avec sa VMA · Comprendre la notion de régularité
+        </div>
+      </div>
+    </div>
+
+    <!-- Méthodologique -->
+    <div class="ct-domain-card">
+      <div class="ct-domain-header methodologique">📐 Domaine Méthodologique</div>
+      <div class="ct-domain-body">
+        <div class="ct-trait-row">
+          <div class="ct-trait-box observed">
+            <div class="ct-trait-label">Conduites observées</div>
+            <div><span class="ct-tag teal">Ignore les temps de tour</span> <span class="ct-tag teal">N'utilise pas la montre</span> <span class="ct-tag teal">Ne connaît pas sa VMA</span> <span class="ct-tag teal">Pas d'auto-évaluation</span></div>
+          </div>
+          <div class="ct-trait-box difficulty">
+            <div class="ct-trait-label">Difficultés principales</div>
+            <div><span class="ct-tag orange">Lecture des données</span> <span class="ct-tag orange">Mesure de l'effort</span> <span class="ct-tag orange">Connaissance de soi</span></div>
+          </div>
+        </div>
+        <div class="ct-trait-box need" style="margin-top:6px;">
+          <div class="ct-trait-label">Besoins d'apprentissage</div>
+          Lire et utiliser sa fiche de course · Connaître et interpréter sa VMA · S'auto-évaluer après chaque tour
+        </div>
+      </div>
+    </div>
+
+    <!-- Social -->
+    <div class="ct-domain-card">
+      <div class="ct-domain-header social">🤝 Domaine Social</div>
+      <div class="ct-domain-body">
+        <div class="ct-trait-row">
+          <div class="ct-trait-box observed">
+            <div class="ct-trait-label">Conduites observées</div>
+            <div><span class="ct-tag teal">Course en groupe non structuré</span> <span class="ct-tag teal">Abandon face au groupe</span> <span class="ct-tag teal">Rôle d'observateur refusé</span></div>
+          </div>
+          <div class="ct-trait-box difficulty">
+            <div class="ct-trait-label">Difficultés principales</div>
+            <div><span class="ct-tag orange">Coopération</span> <span class="ct-tag orange">Rôle de chronométreur</span> <span class="ct-tag orange">Respect des règles</span></div>
+          </div>
+        </div>
+        <div class="ct-trait-box need" style="margin-top:6px;">
+          <div class="ct-trait-label">Besoins d'apprentissage</div>
+          Accepter les rôles sociaux (observateur, chronométreur) · Collaborer avec un partenaire de course
+        </div>
+      </div>
+    </div>
+
+    <!-- Besoins synthèse -->
+    <div class="section-divider"><span>🎯 Synthèse des Besoins — Niveau Débutant</span></div>
+    <div class="needs-grid">
+      <div class="need-card" style="border-top-color:#c8402a;">
+        <h4 style="color:#c8402a;">🏃 Moteur</h4>
+        <ul><li>Stabiliser l'allure sur 2 tours</li><li>Courir sans s'arrêter 6 min</li><li>Contrôler la respiration</li></ul>
+      </div>
+      <div class="need-card" style="border-top-color:#7c3aed;">
+        <h4 style="color:#7c3aed;">♟️ Tactique</h4>
+        <ul><li>Formuler un projet de course</li><li>Choisir et tenir une allure</li><li>Adapter la cible à la VMA</li></ul>
+      </div>
+      <div class="need-card" style="border-top-color:var(--green);">
+        <h4 style="color:var(--green);">📐 Méthodologique</h4>
+        <ul><li>Lire sa fiche de résultats</li><li>Interpréter les écarts de tour</li><li>Connaître sa VMA de base</li></ul>
+      </div>
+      <div class="need-card" style="border-top-color:#0891b2;">
+        <h4 style="color:#0891b2;">🤝 Social</h4>
+        <ul><li>Jouer les rôles définis</li><li>Respecter le parcours</li><li>Soutenir les partenaires</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= INTERMÉDIAIRE ======= -->
+  <div id="ct-intermediaire" class="ct-panel">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+      <span class="niveau-b" style="font-size:14px;padding:4px 14px;">Niveau Intermédiaire — Note 11–16/20</span>
+      <span style="font-size:12px;color:var(--muted);">Profil observé en milieu de cycle, acquis partiels</span>
+    </div>
+    <div class="ct-domain-card">
+      <div class="ct-domain-header moteur">🏃 Domaine Moteur</div>
+      <div class="ct-domain-body">
+        <div class="ct-trait-row">
+          <div class="ct-trait-box observed">
+            <div class="ct-trait-label">Conduites observées</div>
+            <div><span class="ct-tag blue">Allure tenue 3–4 tours</span> <span class="ct-tag blue">Décélération en fin de course</span> <span class="ct-tag blue">Légère irrégularité des temps de tour</span> <span class="ct-tag blue">Récupération partielle entre les tours</span></div>
+          </div>
+          <div class="ct-trait-box difficulty">
+            <div class="ct-trait-label">Difficultés principales</div>
+            <div><span class="ct-tag orange">Maintien de l'allure en fin d'effort</span> <span class="ct-tag orange">Gestion des 2 derniers tours</span></div>
+          </div>
+        </div>
+        <div class="ct-trait-box need" style="margin-top:6px;">
+          <div class="ct-trait-label">Besoins d'apprentissage</div>
+          Renforcer l'endurance de base (VMA 70–80 %) · Travailler les situations de relance · Développer la résistance à la fatigue
+        </div>
+      </div>
+    </div>
+    <div class="ct-domain-card">
+      <div class="ct-domain-header tactique">♟️ Domaine Tactique</div>
+      <div class="ct-domain-body">
+        <div class="ct-trait-row">
+          <div class="ct-trait-box observed">
+            <div class="ct-trait-label">Conduites observées</div>
+            <div><span class="ct-tag purple">Projet de course formulé</span> <span class="ct-tag purple">Cible choisie mais parfois abandonnée</span> <span class="ct-tag purple">Réajustement de l'allure au 3ème tour</span></div>
+          </div>
+          <div class="ct-trait-box difficulty">
+            <div class="ct-trait-label">Difficultés principales</div>
+            <div><span class="ct-tag orange">Maintien du projet jusqu'au bout</span> <span class="ct-tag orange">Ajustement dynamique</span></div>
+          </div>
+        </div>
+        <div class="ct-trait-box need" style="margin-top:6px;">
+          <div class="ct-trait-label">Besoins d'apprentissage</div>
+          Affiner la lecture des sensations internes · Ajuster l'allure tour par tour · Viser la cible FT (finir total)
+        </div>
+      </div>
+    </div>
+    <div class="ct-domain-card">
+      <div class="ct-domain-header methodologique">📐 Domaine Méthodologique</div>
+      <div class="ct-domain-body">
+        <div class="ct-trait-row">
+          <div class="ct-trait-box observed">
+            <div class="ct-trait-label">Conduites observées</div>
+            <div><span class="ct-tag teal">Utilise sa fiche partiellement</span> <span class="ct-tag teal">Calcule parfois les écarts</span> <span class="ct-tag teal">Connaît sa VMA approximativement</span></div>
+          </div>
+          <div class="ct-trait-box difficulty">
+            <div class="ct-trait-label">Difficultés principales</div>
+            <div><span class="ct-tag orange">Analyse fine des écarts</span> <span class="ct-tag orange">Transfert vers la séance suivante</span></div>
+          </div>
+        </div>
+        <div class="ct-trait-box need" style="margin-top:6px;">
+          <div class="ct-trait-label">Besoins d'apprentissage</div>
+          Exploiter systématiquement la fiche de bilan · Identifier les causes des irrégularités · Construire des objectifs progressifs
+        </div>
+      </div>
+    </div>
+    <div class="ct-domain-card">
+      <div class="ct-domain-header social">🤝 Domaine Social</div>
+      <div class="ct-domain-body">
+        <div class="ct-trait-row">
+          <div class="ct-trait-box observed">
+            <div class="ct-trait-label">Conduites observées</div>
+            <div><span class="ct-tag teal">Assure les rôles de base</span> <span class="ct-tag teal">Encourage les partenaires</span> <span class="ct-tag teal">Respecte généralement les règles</span></div>
+          </div>
+          <div class="ct-trait-box difficulty">
+            <div class="ct-trait-label">Difficultés principales</div>
+            <div><span class="ct-tag orange">Précision du chronométrage</span> <span class="ct-tag orange">Retour qualitatif au partenaire</span></div>
+          </div>
+        </div>
+        <div class="ct-trait-box need" style="margin-top:6px;">
+          <div class="ct-trait-label">Besoins d'apprentissage</div>
+          Affiner le rôle d'observateur · Donner un retour constructif · Participer à l'évaluation formative
+        </div>
+      </div>
+    </div>
+    <div class="section-divider"><span>🎯 Synthèse des Besoins — Niveau Intermédiaire</span></div>
+    <div class="needs-grid">
+      <div class="need-card" style="border-top-color:#d97706;">
+        <h4 style="color:#d97706;">🏃 Moteur</h4>
+        <ul><li>Tenir l'allure sur tous les tours</li><li>Travailler l'endurance spécifique</li><li>Situations de relance guidées</li></ul>
+      </div>
+      <div class="need-card" style="border-top-color:#d97706;">
+        <h4 style="color:#d97706;">♟️ Tactique</h4>
+        <ul><li>Consolider le projet de course</li><li>Viser FT systématiquement</li><li>Ajustement dynamique tour/tour</li></ul>
+      </div>
+      <div class="need-card" style="border-top-color:#d97706;">
+        <h4 style="color:#d97706;">📐 Méthodologique</h4>
+        <ul><li>Analyse complète de la fiche</li><li>Fixer objectifs progressifs</li><li>Comprendre les barèmes</li></ul>
+      </div>
+      <div class="need-card" style="border-top-color:#d97706;">
+        <h4 style="color:#d97706;">🤝 Social</h4>
+        <ul><li>Affiner l'observation</li><li>Retour qualitatif précis</li><li>Implication dans l'évaluation</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= AVANCÉ ======= -->
+  <div id="ct-avance" class="ct-panel">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+      <span class="niveau-a" style="font-size:14px;padding:4px 14px;">Niveau Avancé — Note > 16/20</span>
+      <span style="font-size:12px;color:var(--muted);">Profil expert, maîtrise confirmée de l'activité</span>
+    </div>
+    <div class="ct-domain-card">
+      <div class="ct-domain-header moteur">🏃 Domaine Moteur</div>
+      <div class="ct-domain-body">
+        <div class="ct-trait-row">
+          <div class="ct-trait-box observed">
+            <div class="ct-trait-label">Conduites observées</div>
+            <div><span class="ct-tag blue">Allure constante sur tous les tours</span> <span class="ct-tag blue">Finit Total (FT)</span> <span class="ct-tag blue">Accélération possible en fin de course</span> <span class="ct-tag blue">Foulée économique</span> <span class="ct-tag blue">Respiration contrôlée</span></div>
+          </div>
+          <div class="ct-trait-box difficulty">
+            <div class="ct-trait-label">Axes de dépassement</div>
+            <div><span class="ct-tag orange">Optimiser encore la VMA cible</span> <span class="ct-tag orange">Viser +0.5 VMA à chaque séance</span></div>
+          </div>
+        </div>
+        <div class="ct-trait-box need" style="margin-top:6px;">
+          <div class="ct-trait-label">Besoins d'apprentissage</div>
+          Proposer des objectifs supérieurs (+0,5 VMA) · Travailler en leader d'allure · Expérimenter des courses à intensités variées
+        </div>
+      </div>
+    </div>
+    <div class="ct-domain-card">
+      <div class="ct-domain-header tactique">♟️ Domaine Tactique</div>
+      <div class="ct-domain-body">
+        <div class="ct-trait-row">
+          <div class="ct-trait-box observed">
+            <div class="ct-trait-label">Conduites observées</div>
+            <div><span class="ct-tag purple">Projet de course précis et tenu</span> <span class="ct-tag purple">Ajustement fin en cours de course</span> <span class="ct-tag purple">Anticipe la fatigue sur les derniers tours</span></div>
+          </div>
+          <div class="ct-trait-box difficulty">
+            <div class="ct-trait-label">Axes de dépassement</div>
+            <div><span class="ct-tag orange">Transfert à d'autres APS d'endurance</span> <span class="ct-tag orange">Construire une stratégie de course compétitive</span></div>
+          </div>
+        </div>
+        <div class="ct-trait-box need" style="margin-top:6px;">
+          <div class="ct-trait-label">Besoins d'apprentissage</div>
+          Expérimenter des stratégies de negative split · Analyser ses données sur plusieurs séances · Conseiller les pairs
+        </div>
+      </div>
+    </div>
+    <div class="ct-domain-card">
+      <div class="ct-domain-header methodologique">📐 Domaine Méthodologique</div>
+      <div class="ct-domain-body">
+        <div class="ct-trait-row">
+          <div class="ct-trait-box observed">
+            <div class="ct-trait-label">Conduites observées</div>
+            <div><span class="ct-tag teal">Analyse complète de la fiche</span> <span class="ct-tag teal">Calcule les écarts et les interprète</span> <span class="ct-tag teal">Fixe ses propres objectifs</span> <span class="ct-tag teal">Connaît précisément sa VMA</span></div>
+          </div>
+          <div class="ct-trait-box difficulty">
+            <div class="ct-trait-label">Axes de dépassement</div>
+            <div><span class="ct-tag orange">Planification autonome du cycle personnel</span></div>
+          </div>
+        </div>
+        <div class="ct-trait-box need" style="margin-top:6px;">
+          <div class="ct-trait-label">Besoins d'apprentissage</div>
+          Construire et gérer son propre carnet d'entraînement · Analyser sa progression sur le cycle · Concevoir une fiche de suivi personnalisée
+        </div>
+      </div>
+    </div>
+    <div class="ct-domain-card">
+      <div class="ct-domain-header social">🤝 Domaine Social</div>
+      <div class="ct-domain-body">
+        <div class="ct-trait-row">
+          <div class="ct-trait-box observed">
+            <div class="ct-trait-label">Conduites observées</div>
+            <div><span class="ct-tag teal">Tuteur efficace</span> <span class="ct-tag teal">Observateur précis et constructif</span> <span class="ct-tag teal">Respecte et fait respecter les règles</span> <span class="ct-tag teal">Moteur du groupe</span></div>
+          </div>
+          <div class="ct-trait-box difficulty">
+            <div class="ct-trait-label">Axes de dépassement</div>
+            <div><span class="ct-tag orange">Rôle de leader pédagogique</span></div>
+          </div>
+        </div>
+        <div class="ct-trait-box need" style="margin-top:6px;">
+          <div class="ct-trait-label">Besoins d'apprentissage</div>
+          Assumer le rôle de tuteur d'allure · Co-animer une séquence · Contribuer à l'évaluation formative des pairs
+        </div>
+      </div>
+    </div>
+    <div class="section-divider"><span>🎯 Synthèse des Besoins — Niveau Avancé</span></div>
+    <div class="needs-grid">
+      <div class="need-card" style="border-top-color:var(--green);">
+        <h4 style="color:var(--green);">🏃 Moteur</h4>
+        <ul><li>Objectif VMA + 0,5</li><li>Stratégies de course avancées</li><li>Endurance spécifique haute intensité</li></ul>
+      </div>
+      <div class="need-card" style="border-top-color:var(--green);">
+        <h4 style="color:var(--green);">♟️ Tactique</h4>
+        <ul><li>Negative split · Pace management</li><li>Stratégie compétitive</li><li>Transfert inter-APS</li></ul>
+      </div>
+      <div class="need-card" style="border-top-color:var(--green);">
+        <h4 style="color:var(--green);">📐 Méthodologique</h4>
+        <ul><li>Carnet d'entraînement autonome</li><li>Analyse pluriséance</li><li>Fiche de suivi personnalisée</li></ul>
+      </div>
+      <div class="need-card" style="border-top-color:var(--green);">
+        <h4 style="color:var(--green);">🤝 Social</h4>
+        <ul><li>Tuteur d'allure actif</li><li>Co-animation de séquence</li><li>Évaluation formative des pairs</li></ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.mod-conduites -->
+
+<!-- ============================================================ -->
+<!-- MODULE : PLANIFICATION PÉDAGOGIQUE                           -->
+<!-- ============================================================ -->
+<div id="mod-planif" class="module-panel">
+
+  <div class="section-divider" style="margin-top:8px;"><span>📋 Planification Pédagogique — Course de Durée</span></div>
+
+  <!-- PANNEAU DE CONFIGURATION DU CYCLE -->
+  <div class="card" style="margin-bottom:22px;border-top:3px solid var(--accent2);">
+    <div class="card-header" style="background:#1e293b;">
+      <span class="step-num" style="background:var(--accent2);">⚙</span>
+      Paramètres du Cycle — Définissez votre planification
+    </div>
+    <div class="card-body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;align-items:end;">
+        <div>
+          <label class="field-label">Niveau scolaire</label>
+          <select id="plan-niveau" onchange="genererCycle()">
+            <optgroup label="— Collège —">
+              <option value="1ASC">1ère Année Collège (1ASC)</option>
+              <option value="2ASC">2ème Année Collège (2ASC)</option>
+              <option value="3ASC">3ème Année Collège (3ASC)</option>
+            </optgroup>
+            <optgroup label="— Lycée —">
+              <option value="TC">Tronc Commun (TC)</option>
+              <option value="1BAC">1ère Bac (1BAC)</option>
+              <option value="2BAC">2ème Bac (2BAC)</option>
+            </optgroup>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Nombre de séances</label>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <input type="range" id="plan-nb-seances" min="4" max="16" value="10"
+              oninput="document.getElementById('plan-nb-val').textContent=this.value; genererCycle()"
+              style="flex:1;accent-color:var(--accent2);">
+            <span id="plan-nb-val" style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:var(--accent2);min-width:30px;text-align:center;">10</span>
+            <span style="font-size:11px;color:var(--muted);">séances</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:2px;">
+            <span>4 min</span><span>8</span><span>10</span><span>12</span><span>16 max</span>
+          </div>
+        </div>
+        <div>
+          <label class="field-label">Fréquence</label>
+          <select id="plan-freq" onchange="genererCycle()">
+            <option value="1">1 séance / semaine</option>
+            <option value="2">2 séances / semaine</option>
+            <option value="3">3 séances / semaine</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Durée séance (min)</label>
+          <select id="plan-duree" onchange="genererCycle()">
+            <option value="45">45 min</option>
+            <option value="55" selected>55 min</option>
+            <option value="60">60 min</option>
+            <option value="90">90 min</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Piste (m)</label>
+          <select id="plan-piste" onchange="genererCycle()">
+            <option value="200" selected>200 m</option>
+            <option value="250">250 m</option>
+            <option value="300">300 m</option>
+            <option value="400">400 m</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:flex-end;">
+          <button class="btn btn-primary" onclick="genererCycle()" style="width:100%;">
+            🔄 Régénérer le cycle
+          </button>
+        </div>
+      </div>
+      <div id="plan-resume" style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;"></div>
+    </div>
+  </div>
+
+  <!-- ZONE DE SORTIE DYNAMIQUE -->
+  <div id="plan-output"></div>
+
+
+</div><!-- /.mod-planif -->
+
+</div><!-- /.main-wrap -->
+
+<!-- ===== MODAL ÉLÈVE ===== -->
+<div class="modal-overlay" id="student-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:16px;" id="modal-title">Fiche Élève</div>
+        <div style="font-size:11px;color:#aaa;" id="modal-subtitle">Analyse détaillée</div>
+      </div>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;" id="modal-scores"></div>
+      <div style="margin-bottom:20px;">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">
+          📈 Courbe d'Allure — Réel vs Cible (VMA)
+        </div>
+        <div style="height:220px;"><canvas id="modal-chart"></canvas></div>
+      </div>
+      <div id="modal-diagnostic"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  STATE & CONFIG (BARÈMES VARIABLES APRÈS MODIFICATION)
+// ============================================================
+let students = [];
+let levelChart = null;
+let notesChart = null;
+let modalChart = null;
+
+const PERF_SCALES = {
+  '1ASC': {
+    M: [[220,6.0],[228,5.7],[236,5.4],[244,5.1],[252,4.8],[260,4.5],[268,4.2],[276,3.9],[284,3.6],[292,3.3],[300,3.0],[308,2.7],[316,2.4],[324,2.1],[332,1.8],[340,1.5],[348,1.2],[356,0.9],[364,0.6],[372,0.3]],
+    F: [[137,6.0],[145,5.7],[153,5.4],[161,5.1],[169,4.8],[177,4.5],[185,4.2],[193,3.9],[201,3.6],[209,3.3],[217,3.0],[225,2.7],[233,2.4],[241,2.1],[249,1.8],[257,1.5],[265,1.2],[273,0.9],[281,0.6],[289,0.3]]
+  },
+  '2ASC': {
+    M: [[211,6.0],[219,5.7],[227,5.4],[242,5.1],[250,4.8],[258,4.5],[266,4.2],[274,3.9],[282,3.6],[290,3.3],[298,3.0],[306,2.7],[314,2.4],[322,2.1],[330,1.8],[338,1.5],[346,1.2],[354,0.9],[362,0.6],[370,0.3]],
+    F: [[131,6.0],[138,5.7],[145,5.4],[152,5.1],[159,4.8],[166,4.5],[173,4.2],[180,3.9],[187,3.6],[194,3.3],[201,3.0],[208,2.7],[215,2.4],[222,2.1],[229,1.8],[236,1.5],[243,1.2],[250,0.9],[257,0.6],[264,0.3]]
+  },
+  '3ASC': {
+    M: [[203,6.0],[211,5.7],[219,5.4],[227,5.1],[235,4.8],[243,4.5],[251,4.2],[259,3.9],[267,3.6],[275,3.3],[283,3.0],[291,2.7],[299,2.4],[307,2.1],[315,1.8],[323,1.5],[331,1.2],[339,0.9],[347,0.6],[355,0.3]],
+    F: [[125,6.0],[132,5.7],[139,5.4],[146,5.1],[153,4.8],[160,4.5],[167,4.2],[174,3.9],[181,3.6],[188,3.3],[195,3.0],[202,2.7],[209,2.4],[216,2.1],[223,1.8],[230,1.5],[237,1.2],[244,0.9],[251,0.6],[258,0.3]]
+  }
+};
+
+const REG_SCALES = {
+  '1ASC': [[15,6.0],[19,5.4],[23,4.8],[27,4.2],[31,3.6],[35,3.0],[39,2.4],[43,1.8],[47,1.2],[Infinity,0.6]],
+  '2ASC': [[12,6.0],[15,5.4],[18,4.8],[21,4.2],[24,3.6],[27,3.0],[30,2.4],[33,1.8],[36,1.2],[Infinity,0.6]],
+  '3ASC': [[8,6.0],[10,5.4],[12,4.8],[14,4.2],[16,3.6],[18,3.0],[20,2.4],[22,1.8],[24,1.2],[Infinity,0.6]]
+};
+
+const CIBLE_SCORES = { FT: 8, FP: 5, AB: 2 };
+const DIST_G = 1000, DIST_F = 600;
+
+// ============================================================
+//  CONFIG PANEL & BAREMES RENDER
+// ============================================================
+function getConfig() {
+  return {
+    niveau: document.getElementById('cfg-niveau').value,
+    piste: parseInt(document.getElementById('cfg-piste').value) || 200,
+    date: document.getElementById('cfg-date').value,
+    seance: document.getElementById('cfg-seance').value,
+    etab: document.getElementById('cfg-etab').value,
+    prof: document.getElementById('cfg-prof').value
+  };
+}
+
+function updateConfig() {
+  const cfg = getConfig();
+  const toursG = Math.round(DIST_G / cfg.piste);
+  const toursF = Math.round(DIST_F / cfg.piste);
+  document.getElementById('dist-g').textContent = DIST_G + ' m';
+  document.getElementById('dist-f').textContent = DIST_F + ' m';
+  document.getElementById('tours-g').textContent = toursG;
+  document.getElementById('tours-f').textContent = toursF;
+  document.getElementById('bareme-level-title').textContent = cfg.niveau;
+  updateNewLapFields();
+}
+
+function renderBaremeTables() {
+  const cfg = getConfig();
+  
+  // Render Perf M
+  const tbodyPM = document.getElementById('bareme-perf-m-tbody');
+  tbodyPM.innerHTML = '';
+  PERF_SCALES[cfg.niveau].M.forEach((row, i) => {
+    tbodyPM.innerHTML += `<tr>
+      <td style="font-weight:bold;">${row[1].toFixed(1)}</td>
+      <td><input type="text" value="${formatTime(row[0])}" onchange="updatePerfThreshold('${cfg.niveau}', 'M', ${i}, this.value)" style="padding:2px 6px; font-size:12px;"/></td>
+    </tr>`;
+  });
+
+  // Render Perf F
+  const tbodyPF = document.getElementById('bareme-perf-f-tbody');
+  tbodyPF.innerHTML = '';
+  PERF_SCALES[cfg.niveau].F.forEach((row, i) => {
+    tbodyPF.innerHTML += `<tr>
+      <td style="font-weight:bold;">${row[1].toFixed(1)}</td>
+      <td><input type="text" value="${formatTime(row[0])}" onchange="updatePerfThreshold('${cfg.niveau}', 'F', ${i}, this.value)" style="padding:2px 6px; font-size:12px;"/></td>
+    </tr>`;
+  });
+
+  // Render Régularité
+  const tbodyR = document.getElementById('bareme-reg-tbody');
+  tbodyR.innerHTML = '';
+  REG_SCALES[cfg.niveau].forEach((row, i) => {
+    const valueDisp = row[0] === Infinity ? 'Infini' : row[0];
+    tbodyR.innerHTML += `<tr>
+      <td style="font-weight:bold;">${row[1].toFixed(1)}</td>
+      <td><input type="number" value="${row[0]}" ${row[0] === Infinity ? 'readonly' : ''} onchange="updateRegThreshold('${cfg.niveau}', ${i}, this.value)" style="padding:2px 6px; font-size:12px;"/></td>
+    </tr>`;
+  });
+}
+
+function updatePerfThreshold(niv, sexe, index, valString) {
+  const sec = parseTime(valString);
+  if (sec !== null && !isNaN(sec)) {
+    PERF_SCALES[niv][sexe][index][0] = sec;
+    renderTable();
+  }
+}
+
+function updateRegThreshold(niv, index, valNum) {
+  const val = parseFloat(valNum);
+  if (!isNaN(val)) {
+    REG_SCALES[niv][index][0] = val;
+    renderTable();
+  }
+}
+
+function updateNewLapFields() {
+  const cfg = getConfig();
+  const sexe = document.getElementById('new-sexe').value;
+  const dist = sexe === 'M' ? DIST_G : DIST_F;
+  const tours = Math.round(dist / cfg.piste);
+  document.getElementById('lap-count-label').textContent = tours + ' tour(s)';
+  const cont = document.getElementById('new-laps-container');
+  cont.innerHTML = '';
+  for (let i = 1; i <= tours; i++) {
+    const wrap = document.createElement('div');
+    wrap.style = 'display:flex; flex-direction:column; align-items:center; gap:2px;';
+    const lbl = document.createElement('span');
+    lbl.style = 'font-size:10px; color:var(--muted);';
+    lbl.textContent = 'T' + i;
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.className = 'lap-input';
+    inp.placeholder = '01:30';
+    inp.id = 'new-lap-' + i;
+    inp.addEventListener('change', autoTotalTime);
+    wrap.appendChild(lbl);
+    wrap.appendChild(inp);
+    cont.appendChild(wrap);
+  }
+}
+
+function autoTotalTime() {
+  const cfg = getConfig();
+  const sexe = document.getElementById('new-sexe').value;
+  const dist = sexe === 'M' ? DIST_G : DIST_F;
+  const tours = Math.round(dist / cfg.piste);
+  let total = 0;
+  let allFilled = true;
+  for (let i = 1; i <= tours; i++) {
+    const val = document.getElementById('new-lap-' + i)?.value || '';
+    const s = parseTime(val);
+    if (s === null) { allFilled = false; break; }
+    total += s;
+  }
+  if (allFilled && total > 0) {
+    document.getElementById('new-total-time').value = formatTime(total);
+  }
+}
+
+// ============================================================
+//  TIME HELPERS
+// ============================================================
+function parseTime(str) {
+  if (!str || !str.trim()) return null;
+  str = str.trim();
+  if (str.includes(':')) {
+    const parts = str.split(':');
+    if (parts.length === 2) {
+      const m = parseInt(parts[0]);
+      const s = parseFloat(parts[1]);
+      if (isNaN(m) || isNaN(s)) return null;
+      return m * 60 + s;
+    }
+  }
+  const n = parseFloat(str);
+  return isNaN(n) ? null : n;
+}
+
+function formatTime(seconds) {
+  if (seconds === null || isNaN(seconds) || seconds === Infinity) return '—';
+  const m = Math.floor(seconds / 60);
+  const s = Math.round(seconds % 60);
+  return m + ':' + String(s).padStart(2, '0');
+}
+
+// ============================================================
+//  SCORING ENGINE
+// ============================================================
+function scorePerformance(niveau, sexe, totalSec) {
+  if (totalSec === null) return null;
+  const scale = PERF_SCALES[niveau]?.[sexe];
+  if (!scale) return null;
+  for (const [threshold, pts] of scale) {
+    if (totalSec <= threshold) return pts;
+  }
+  return 0.3;
+}
+
+function scoreRegularite(niveau, sommeEcarts) {
+  if (sommeEcarts === null) return null;
+  const scale = REG_SCALES[niveau];
+  if (!scale) return null;
+  for (const [threshold, pts] of scale) {
+    if (sommeEcarts <= threshold) return pts;
+  }
+  return 0.6;
+}
+
+function scoreCible(statut) {
+  return CIBLE_SCORES[statut] || 0;
+}
+
+function computeStudent(s, cfg) {
+  const dist = s.sexe === 'M' ? DIST_G : DIST_F;
+  const tours = Math.round(dist / cfg.piste);
+  const vitesse_ms = s.vma / 3.6;
+  const tempsCibleTour = cfg.piste / vitesse_ms;
+
+  let sommeEcarts = 0;
+  let allLaps = true;
+  const lapTimes = [];
+  for (let i = 0; i < tours; i++) {
+    const t = s.laps[i] !== undefined ? s.laps[i] : null;
+    lapTimes.push(t);
+    if (t === null) { allLaps = false; }
+    else { sommeEcarts += Math.abs(t - tempsCibleTour); }
+  }
+  if (!allLaps) { sommeEcarts = null; }
+
+  let notePerf = s.notePerf;
+  if (notePerf === null) {
+    const totalSec = lapTimes.every(t => t !== null) ? lapTimes.reduce((a,b)=>a+b,0) : null;
+    notePerf = scorePerformance(cfg.niveau, s.sexe, totalSec);
+  }
+
+  const noteReg = allLaps ? scoreRegularite(cfg.niveau, sommeEcarts) : null;
+  const noteCible = scoreCible(s.cible);
+
+  let total = null;
+  if (notePerf !== null && noteReg !== null) {
+    total = (notePerf || 0) + (noteReg || 0) + noteCible;
+    total = Math.min(20, Math.round(total * 10) / 10);
+  }
+
+  let niveau = '—';
+  if (total !== null) {
+    if (total > 16) niveau = 'A';
+    else if (total >= 11) niveau = 'B';
+    else niveau = 'C';
+  }
+
+  return {
+    tempsCibleTour, lapTimes, sommeEcarts,
+    notePerf, noteReg, noteCible,
+    total, niveau, tours, dist
+  };
+}
+
+// ============================================================
+//  ADD / REMOVE STUDENT
+// ============================================================
+let studentIdCounter = 0;
+
+function addStudent() {
+  const cfg = getConfig();
+  const nom = document.getElementById('new-nom').value.trim();
+  const sexe = document.getElementById('new-sexe').value;
+  const vmaVal = parseFloat(document.getElementById('new-vma').value);
+  const cible = document.getElementById('new-cible').value;
+
+  if (!nom) { alert('Veuillez saisir le nom de l\'élève.'); return; }
+  if (isNaN(vmaVal) || vmaVal <= 0) { alert('Veuillez saisir une VMA valide (km/h).'); return; }
+
+  const dist = sexe === 'M' ? DIST_G : DIST_F;
+  const tours = Math.round(dist / cfg.piste);
+  const laps = [];
+  for (let i = 1; i <= tours; i++) {
+    const val = document.getElementById('new-lap-' + i)?.value || '';
+    laps.push(parseTime(val));
+  }
+
+  students.push({
+    id: ++studentIdCounter,
+    nom, sexe, vma: vmaVal,
+    notePerf: null,
+    cible, laps
+  });
+
+  renderTable();
+  updateDashboard();
+
+  document.getElementById('new-nom').value = '';
+  document.getElementById('new-vma').value = '';
+  document.getElementById('new-total-time').value = '';
+  document.getElementById('new-cible').value = 'FT';
+  updateNewLapFields();
+}
+
+function removeStudent(id) {
+  students = students.filter(s => s.id !== id);
+  renderTable();
+  updateDashboard();
+}
+
+function clearAll() {
+  if (!confirm('Effacer tous les élèves ?')) return;
+  students = [];
+  renderTable();
+  updateDashboard();
+}
+
+function computeAll() {
+  renderTable();
+  updateDashboard();
+}
+
+// ============================================================
+//  RENDER TABLE
+// ============================================================
+function renderTable() {
+  const cfg = getConfig();
+  const tbody = document.getElementById('students-tbody');
+  if (students.length === 0) {
+    tbody.innerHTML = '<tr id="empty-row"><td colspan="13" style="text-align:center;color:var(--muted);padding:30px;font-style:italic;">Aucun élève enregistré.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = '';
+  students.forEach((s, idx) => {
+    const res = computeStudent(s, cfg);
+    s._res = res;
+
+    const niveauBadge = res.niveau === 'A' ? `<span class="niveau-a">A</span>` :
+                        res.niveau === 'B' ? `<span class="niveau-b">B</span>` :
+                        res.niveau === 'C' ? `<span class="niveau-c">C</span>` : '—';
+
+    const lapStr = res.lapTimes.map((t,i) => t !== null ? `T${i+1}:${formatTime(t)}` : `T${i+1}:—`).join(' | ');
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="font-weight:600;color:var(--muted);">${idx+1}</td>
+      <td style="font-weight:600;">${s.nom}</td>
+      <td>${s.sexe}</td>
+      <td>${s.vma}</td>
+      <td style="color:var(--accent2);font-weight:600;">${formatTime(res.tempsCibleTour)}</td>
+      <td style="font-size:11px;color:var(--muted);">${lapStr}</td>
+      <td>${res.sommeEcarts !== null ? Math.round(res.sommeEcarts) + 's' : '—'}</td>
+      <td><span class="score-display">${res.notePerf !== null ? res.notePerf.toFixed(1) : '—'}</span></td>
+      <td><span class="score-display">${res.noteReg !== null ? res.noteReg.toFixed(1) : '—'}</span></td>
+      <td><span class="score-display">${res.noteCible}</span> <span style="font-size:10px;color:var(--muted);">(${s.cible})</span></td>
+      <td>
+        ${res.total !== null ?
+          `<span style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:${res.total>16?'var(--green)':res.total>=11?'var(--orange)':'var(--red)'};">${res.total.toFixed(1)}</span>` :
+          '<span style="color:var(--muted);">—</span>'}
+      </td>
+      <td>${niveauBadge}</td>
+      <td>
+        <div style="display:flex;gap:5px;">
+          <button class="btn btn-outline btn-sm" onclick="openModal(${s.id})">🔍</button>
+          <button class="btn btn-danger btn-sm" onclick="removeStudent(${s.id})">✕</button>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ============================================================
+//  DASHBOARD
+// ============================================================
+function updateDashboard() {
+  const cfg = getConfig();
+  if (students.length === 0) {
+    document.getElementById('dashboard').style.display = 'none';
+    return;
+  }
+  document.getElementById('dashboard').style.display = 'block';
+
+  const results = students.map(s => computeStudent(s, cfg));
+  const totals = results.filter(r => r.total !== null).map(r => r.total);
+  const nA = results.filter(r => r.niveau === 'A').length;
+  const nB = results.filter(r => r.niveau === 'B').length;
+  const nC = results.filter(r => r.niveau === 'C').length;
+  const avg = totals.length ? (totals.reduce((a,b)=>a+b,0)/totals.length).toFixed(2) : '—';
+  const success = totals.length ? Math.round(totals.filter(t => t >= 10).length / totals.length * 100) + '%' : '—';
+
+  document.getElementById('stat-total').textContent = students.length;
+  document.getElementById('stat-avg').textContent = avg;
+  document.getElementById('stat-nA').textContent = nA;
+  document.getElementById('stat-nB').textContent = nB;
+  document.getElementById('stat-nC').textContent = nC;
+  document.getElementById('stat-success').textContent = success;
+
+  if (levelChart) levelChart.destroy();
+  const ctx1 = document.getElementById('chart-levels').getContext('2d');
+  levelChart = new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+      labels: ['Niveau A (Maîtrise)', 'Niveau B (En cours)', 'Niveau C (Défaillant)'],
+      datasets: [{
+        data: [nA, nB, nC],
+        backgroundColor: ['#1a7a4a', '#d97706', '#c8402a'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { font: { family: 'DM Sans', size: 11 }, padding: 10 } } }
+    }
+  });
+
+  if (notesChart) notesChart.destroy();
+  const buckets = [0,0,0,0,0,0,0,0,0,0];
+  totals.forEach(t => { const b = Math.min(9, Math.floor(t/2)); buckets[b]++; });
+  const ctx2 = document.getElementById('chart-notes').getContext('2d');
+  notesChart = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: ['0-2','2-4','4-6','6-8','8-10','10-12','12-14','14-16','16-18','18-20'],
+      datasets: [{ label: 'Nb élèves', data: buckets, backgroundColor: '#2a6ac8', borderRadius: 4 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } },
+        x: { ticks: { font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+// ============================================================
+//  MODAL & DIAGNOSTICS
+// ============================================================
+function openModal(id) {
+  const s = students.find(s => s.id === id);
+  if (!s) return;
+  const cfg = getConfig();
+  const res = computeStudent(s, cfg);
+
+  document.getElementById('modal-title').textContent = s.nom;
+  document.getElementById('modal-subtitle').textContent = `${s.sexe === 'M' ? 'Garçon' : 'Fille'} · ${cfg.niveau} · VMA : ${s.vma} km/h`;
+
+  const scoresEl = document.getElementById('modal-scores');
+  const niveauColor = res.niveau === 'A' ? 'var(--green)' : res.niveau === 'B' ? 'var(--orange)' : 'var(--red)';
+  scoresEl.innerHTML = `
+    <div class="stat-card" style="border-top:3px solid var(--accent2);">
+      <div class="stat-num" style="color:var(--accent2);">${res.notePerf !== null ? res.notePerf.toFixed(1) : '—'}<small style="font-size:13px;">/6</small></div>
+      <div class="stat-label">Performance</div>
+    </div>
+    <div class="stat-card" style="border-top:3px solid #6366f1;">
+      <div class="stat-num" style="color:#6366f1;">${res.noteReg !== null ? res.noteReg.toFixed(1) : '—'}<small style="font-size:13px;">/6</small></div>
+      <div class="stat-label">Régularité</div>
+    </div>
+    <div class="stat-card" style="border-top:3px solid var(--orange);">
+      <div class="stat-num" style="color:var(--orange);">${res.noteCible}<small style="font-size:13px;">/8</small></div>
+      <div class="stat-label">Cible (${s.cible})</div>
+    </div>
+    <div class="stat-card" style="border-top:3px solid ${niveauColor};">
+      <div class="stat-num" style="color:${niveauColor};">${res.total !== null ? res.total.toFixed(1) : '—'}<small style="font-size:13px;">/20</small></div>
+      <div class="stat-label">Note Finale — Niv. ${res.niveau}</div>
+    </div>
+  `;
+
+  if (modalChart) modalChart.destroy();
+  const lapLabels = res.lapTimes.map((_, i) => 'Tour ' + (i+1));
+  const idealData = res.lapTimes.map(() => Math.round(res.tempsCibleTour));
+  const realData = res.lapTimes.map(t => t !== null ? Math.round(t) : null);
+
+  const ctx = document.getElementById('modal-chart').getContext('2d');
+  modalChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: lapLabels,
+      datasets: [
+        { label: 'Allure Cible (VMA)', data: idealData, borderColor: '#2a6ac8', backgroundColor: 'rgba(42,106,200,0.08)', borderWidth: 2, borderDash: [5,4], pointRadius: 5, tension: 0.3 },
+        { label: 'Allure Réelle', data: realData, borderColor: '#c8402a', backgroundColor: 'rgba(200,64,42,0.08)', borderWidth: 2.5, pointRadius: 5, tension: 0.3 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top', labels: { font: { family: 'DM Sans', size: 12 } } },
+        tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${formatTime(ctx.raw)}` } }
+      },
+      scales: {
+        y: { title: { display: true, text: 'Temps (s)', font: { size: 11 } } }
+      }
+    }
+  });
+
+  generateDiagnostic(s, res, cfg);
+  document.getElementById('student-modal').classList.add('active');
+}
+
+function closeModal() { document.getElementById('student-modal').classList.remove('active'); }
+
+function generateDiagnostic(s, res, cfg) {
+  const diagEl = document.getElementById('modal-diagnostic');
+  let diagText = ''; let remList = [];
+  const lapTimes = res.lapTimes.filter(t => t !== null);
+  let tendance = '';
+  if (lapTimes.length >= 2) {
+    const firstHalf = lapTimes.slice(0, Math.floor(lapTimes.length/2));
+    const lastHalf = lapTimes.slice(Math.ceil(lapTimes.length/2));
+    const avgFirst = firstHalf.reduce((a,b)=>a+b,0)/firstHalf.length;
+    const avgLast = lastHalf.reduce((a,b)=>a+b,0)/lastHalf.length;
+    if (avgLast - avgFirst > 5) tendance = 'décélérant';
+    else if (avgLast - avgFirst < -5) tendance = 'accélérant';
+    else tendance = 'régulier';
+  }
+
+  if (res.niveau === 'A') {
+    diagText = `L'élève ${s.nom} démontre une maîtrise parfaite...`;
+    remList = ['Proposer un objectif supérieur (+0.5 VMA).', 'Faire participer comme tuteur.'];
+  } else if (res.niveau === 'B') {
+    diagText = `L'élève ${s.nom} est en cours d'acquisition...`;
+    remList = ['Travailler avec bips sonores.', 'Utiliser des leaders d\'allure.'];
+  } else {
+    diagText = `L'élève ${s.nom} présente une gestion anarchique...`;
+    remList = ['Vérifier la VMA de base.', 'Brider la vitesse sur les premiers tours.'];
+  }
+
+  diagEl.innerHTML = `
+    <div class="diag-box"><strong>🩺 Diagnostic :</strong> ${diagText}</div>
+    <div class="rem-box"><strong>🎯 Conseils :</strong><ul>${remList.map(r=>`<li>${r}</li>`).join('')}</ul></div>
+  `;
+}
+
+// ============================================================
+//  CSV CSV EXPORT & TEMPLATE
+// ============================================================
+function importCSV(event) {
+  const file = event.target.files[0]; if (!file) return;
+  const cfg = getConfig();
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    const lines = text.split('\n').filter(l => l.trim());
+    let count = 0;
+    lines.forEach((line, idx) => {
+      if (idx === 0 && line.toLowerCase().includes('nom')) return;
+      const parts = line.split(',').map(p => p.trim());
+      if (parts.length < 5) return;
+      const nom = parts[0]; const sexe = parts[1].toUpperCase() === 'F' ? 'F' : 'M';
+      const vma = parseFloat(parts[2]);
+      const cible = ['FT','FP','AB'].includes(parts[4].toUpperCase()) ? parts[4].toUpperCase() : 'FT';
+      if (!nom || isNaN(vma)) return;
+      const dist = sexe === 'M' ? DIST_G : DIST_F;
+      const tours = Math.round(dist / cfg.piste);
+      const laps = [];
+      for (let i = 0; i < tours; i++) { laps.push(parts[5+i] ? parseTime(parts[5+i]) : null); }
+      students.push({ id: ++studentIdCounter, nom, sexe, vma, notePerf: null, cible, laps });
+      count++;
+    });
+    document.getElementById('csv-feedback').textContent = `✅ ${count} élève(s) importé(s).`;
+    renderTable(); updateDashboard();
+  };
+  reader.readAsText(file);
+}
+
+function downloadCSVTemplate() {
+  const cfg = getConfig();
+  const toursG = Math.round(DIST_G / cfg.piste);
+  const lapHeaders = Array.from({length: Math.max(toursG, Math.round(DIST_F/cfg.piste))}, (_,i) => 'Temps_T'+(i+1)).join(',');
+  const content = `Nom,Sexe(M/F),VMA_kmh,NotePerf_sur6,StatutCible(FT/FP/AB),${lapHeaders}\nAhmed Alaoui,M,12.5,,FT,1:50,1:52,1:48,1:55,1:50\n`;
+  const blob = new Blob([content], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'modele_course_duree.csv'; a.click();
+}
+
+function exportCSV() {
+  if (students.length === 0) { alert('Aucun élève à exporter.'); return; }
+  const cfg = getConfig();
+  const lines = ['Nom,Sexe,VMA,NotePerf,NoteRegularite,NoteCible,NoteFinale,Niveau,SommeEcarts,StatutCible'];
+  students.forEach(s => {
+    const res = computeStudent(s, cfg);
+    lines.push([s.nom, s.sexe, s.vma, res.notePerf||'', res.noteReg||'', res.noteCible, res.total||'', res.niveau, res.sommeEcarts||'', s.cible].join(','));
+  });
+  const blob = new Blob([lines.join('\n')], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = `Export_${cfg.niveau}.csv`; a.click();
+}
+
+function switchTab(tabId, btn) {
+  const container = document.getElementById('mod-apd');
+  container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('cfg-date').value = new Date().toISOString().split('T')[0];
+  updateConfig();
+  renderBaremeTables();
+  genererCycle();
+});
+
+// ============================================================
+//  MODULE NAVIGATION
+// ============================================================
+function showModule(id, btn) {
+  document.querySelectorAll('.module-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.mnav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  // Ensure at least one tab-panel is active inside mod-apd when returning to it
+  if (id === 'mod-apd') {
+    const panels = document.querySelectorAll('#mod-apd .tab-panel');
+    const hasActive = Array.from(panels).some(p => p.classList.contains('active'));
+    if (!hasActive && panels.length > 0) panels[0].classList.add('active');
+  }
+}
+
+// ============================================================
+//  CONDUITES TYPIQUES — level switch
+// ============================================================
+function ctSwitchLevel(level, btn) {
+  document.querySelectorAll('.ct-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ct-level-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('ct-' + level).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ============================================================
+//  PLANIFICATION — APS tab switch
+// ============================================================
+function planSwitchAps(id, btn) {
+  document.querySelectorAll('.aps-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.aps-tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ============================================================
+//  MOTEUR DE GÉNÉRATION DE CYCLE — PLANIFICATION DYNAMIQUE
+// ============================================================
+
+// --- Base de données pédagogique par niveau ---
+const PLAN_DATA = {
+  college: {
+    niveaux: ['1ASC','2ASC','3ASC'],
+    pill: 'college',
+    pillLabel: 'Collège OP 2009',
+    competences: [
+      { titre: 'Compétence Transversale 1', texte: "Développer la santé et l'endurance cardio-respiratoire par une pratique régulière et raisonnée de la course de durée." },
+      { titre: 'Compétence Transversale 2', texte: "Construire et gérer un projet de course en utilisant les outils de mesure et d'auto-évaluation adaptés à son niveau." },
+      { titre: 'Compétence Sociale', texte: "Assumer des rôles variés (coureur, observateur, chronométreur) et coopérer dans le groupe-classe." }
+    ],
+    objectifs: [
+      { gen: "Développer l'endurance aérobie", spec: "Courir à 70–80 % de la VMA · Maintenir l'allure sur 6 à 12 min", indicateur: "Écart ≤ 15 sec par tour · Finit Total (FT)" },
+      { gen: "Construire un projet de course", spec: "Choisir et tenir une cible VMA · Formuler un projet avant la course", indicateur: "Cible annoncée = cible réalisée" },
+      { gen: "S'auto-évaluer", spec: "Calculer ses écarts · Analyser sa fiche de résultats", indicateur: "Fiche correctement remplie et commentée" },
+      { gen: "Coopérer", spec: "Assumer les rôles sociaux · Encourager les partenaires", indicateur: "Rôles assurés avec précision sur 3 séances" }
+    ],
+    vmaBase: 70, vmaMax: 80,
+    indicateurs: [
+      { label: "% élèves Finit Total (FT)", cible: 70, color: 'var(--green)' },
+      { label: "Régularité (Σ écarts ≤ 15 sec)", cible: 65, color: 'var(--accent2)' },
+      { label: "Progression VMA classe (+0.5 km/h)", cible: 55, color: 'var(--orange)' },
+      { label: "Taux de réussite ≥ 10/20", cible: 80, color: '#6366f1' }
+    ]
+  },
+  lycee: {
+    niveaux: ['TC','1BAC','2BAC'],
+    pill: 'lycee',
+    pillLabel: 'Lycée OP 2009',
+    competences: [
+      { titre: 'Compétence Disciplinaire 1', texte: "Mobiliser ses ressources physiques et méthodologiques pour réaliser une performance en course de durée en accord avec un projet de course établi." },
+      { titre: 'Compétence Transversale', texte: "Développer l'esprit d'analyse, d'auto-évaluation et d'autonomie dans la gestion d'un effort prolongé." },
+      { titre: 'Compétence Sociale', texte: "Assumer le rôle de tuteur, leader d'allure et co-évaluateur dans le groupe-classe." }
+    ],
+    objectifs: [
+      { gen: "Développer l'endurance spécifique", spec: "VMA 80–85 % · Gestion de la fatigue · Analyse sérielle", indicateur: "Progression +0.5 VMA · Σ écarts ≤ 8 sec" },
+      { gen: "Construire un projet de course optimisé", spec: "Negative split · Projet formulé et tenu sur cycle complet", indicateur: "Cible tenue sur 100 % des séances" },
+      { gen: "Gérer un carnet d'entraînement", spec: "Analyser sa progression pluriséance · Fixer ses objectifs", indicateur: "Carnet tenu sur tout le cycle" },
+      { gen: "Assumer le rôle de tuteur", spec: "Conseiller un partenaire · Co-animer une séquence", indicateur: "Retour qualitatif précis documenté" }
+    ],
+    vmaBase: 80, vmaMax: 90,
+    indicateurs: [
+      { label: "% élèves VMA ≥ 80 %", cible: 60, color: 'var(--green)' },
+      { label: "Σ écarts ≤ 8 sec", cible: 55, color: 'var(--accent2)' },
+      { label: "Carnet tenu sur tout le cycle", cible: 75, color: '#7c3aed' },
+      { label: "Note ≥ 14/20", cible: 65, color: 'var(--orange)' }
+    ]
+  }
+};
+
+// Bibliothèque de séances (pool riche non répétitif)
+const SEANCE_POOL = {
+  diag: [
+    {
+      titre: "Évaluation diagnostique — Test VMA",
+      tag: "diag", couleur: "#0891b2", phase: "🔵 Diagnostic",
+      objectif: "Déterminer le niveau initial de chaque élève · Constituer les groupes",
+      contenu: "Test navette de Léger-Boucher (demi-paliers) · Relevé de la VMA · Classement A/B/C",
+      organisation: "Classe entière · Chronométrage collectif",
+      eval: "Fiche individuelle VMA · Tableau de classement par groupe",
+      diff: "Arrêt possible dès saturation · Aucune contrainte de résultat"
+    },
+    {
+      titre: "Bilan initial — Connaissance de soi",
+      tag: "diag", couleur: "#0891b2", phase: "🔵 Diagnostic",
+      objectif: "Identifier ses ressources · Formuler un premier projet de course",
+      contenu: "Course libre 6 min chrono · Auto-évaluation perçue vs réelle · Introduction de la fiche de suivi",
+      organisation: "Individuel puis mise en commun",
+      eval: "Comparaison effort perçu / VMA estimée",
+      diff: "Pas de cible imposée · Exploration libre de l'allure"
+    }
+  ],
+  acq: [
+    {
+      titre: "Découverte de la régularité — Bip sonore",
+      tag: "acq", couleur: "#1d4ed8", phase: "🟡 Acquisition",
+      objectif: "Courir à allure régulière avec repère sonore · VMA 65–70 %",
+      contenu: "Course avec bip sonore toutes les 30 sec · 4–6 tours · Rôle chronométreur / observateur en binôme",
+      organisation: "Binômes (1 court / 1 observe) · Rotation à mi-séance",
+      eval: "Calcul Σ écarts par tour · Objectif : rester < 20 sec",
+      diff: "Niv.C : 3 tours · Niv.B : 5 tours · Niv.A : 6 tours + auto-ajustement"
+    },
+    {
+      titre: "Construction du projet de course",
+      tag: "acq", couleur: "#1d4ed8", phase: "🟡 Acquisition",
+      objectif: "Formuler un projet avant la course · Choisir une cible VMA cohérente",
+      contenu: "Formulation écrite du projet (allure cible, nb tours, cible FT/FP) · Course · Confrontation projet/réel",
+      organisation: "Individuel → Binôme pour analyse post-course",
+      eval: "Grille projet : cible annoncée vs réalisée",
+      diff: "Niv.C : choix cible guidé · Niv.A : cible autonome + commentaire tactique"
+    },
+    {
+      titre: "Travail foncier — Endurance de base",
+      tag: "acq", couleur: "#1d4ed8", phase: "🟡 Acquisition",
+      objectif: "Courir en continu 8–10 min · Développer la résistance aérobie",
+      contenu: "Course continue à VMA 70 % · Fiche de suivi tour par tour · Pas de bip : estimation interne",
+      organisation: "Groupes homogènes de VMA · Autonomie dans la gestion",
+      eval: "Nb tours réalisés · Σ écarts (cible ≤ 15 sec)",
+      diff: "Niv.C : 6 min · Niv.B : 8 min · Niv.A : 10 min avec relance finale"
+    },
+    {
+      titre: "Situations d'allure — Leaders de groupe",
+      tag: "acq", couleur: "#1d4ed8", phase: "🟡 Acquisition",
+      objectif: "Utiliser un leader d'allure pour maintenir le rythme · VMA 72–75 %",
+      contenu: "Coureur Niv.A joue le rôle de meneur · Groupes de 3–4 · Course 8 min · Discussion post-effort",
+      organisation: "Groupes mixtes dirigés par un leader désigné",
+      eval: "Cohésion du groupe · Σ écarts du meneur",
+      diff: "Leader tourne à chaque tour · Retour sur le ressenti"
+    },
+    {
+      titre: "Séance miroir — Observation et analyse",
+      tag: "acq", couleur: "#1d4ed8", phase: "🟡 Acquisition",
+      objectif: "Développer le regard critique · Rôle d'observateur actif",
+      contenu: "Moitié de la classe court · L'autre moitié observe avec grille critériée (posture, allure, régularité) · Alternance",
+      organisation: "Binômes observateur/coureur · Retour verbal structuré",
+      eval: "Qualité de l'observation · Pertinence des retours",
+      diff: "Grille d'observation simplifiée (3 critères) pour Niv.C · Grille complète pour Niv.A"
+    },
+    {
+      titre: "Jeu de rôles — Chronométreur officiel",
+      tag: "acq", couleur: "#1d4ed8", phase: "🟡 Acquisition",
+      objectif: "Maîtriser le rôle de chronométreur · Précision et coopération",
+      contenu: "Groupe de 3 : 1 court / 1 chrono / 1 notateur · Relève tour par tour · Calcul collectif des écarts",
+      organisation: "Trinômes en rotation sur 3 séries",
+      eval: "Précision du relevé · Calcul correct des Σ écarts",
+      diff: "Chronométrage simplifié pour Niv.C (total seulement)"
+    }
+  ],
+  renf: [
+    {
+      titre: "Consolidation — Régulation tour par tour",
+      tag: "renf", couleur: "#7c3aed", phase: "🟠 Renforcement",
+      objectif: "Ajuster l'allure en temps réel · Réduire les écarts · VMA 75–78 %",
+      contenu: "Course avec feedback immédiat du chrono (signal si écart > 10 sec) · Fiche de bilan enrichie",
+      organisation: "Groupes de 3 · Feedback sonore ou verbal",
+      eval: "Σ écarts cible : ≤ 12 sec · Nb tours FT",
+      diff: "Niv.C : signal si > 15 sec · Niv.A : signal si > 8 sec"
+    },
+    {
+      titre: "Séance progression — +0.5 VMA",
+      tag: "renf", couleur: "#7c3aed", phase: "🟠 Renforcement",
+      objectif: "Tenter une allure légèrement supérieure · VMA + 0.5 km/h",
+      contenu: "Course à allure majorée de 0.5 VMA · Analyse de la tenue de l'effort · Comparaison avec séance précédente",
+      organisation: "Individuel · Lecture carnet ou fiche antérieure obligatoire",
+      eval: "Tenue de la nouvelle allure · FT ou FP documenté",
+      diff: "Retour à VMA de base si FP sur plus de 2 tours consécutifs"
+    },
+    {
+      titre: "Situation de dépassement",
+      tag: "renf", couleur: "#7c3aed", phase: "🟠 Renforcement",
+      objectif: "Apprendre à résister à la tentation de s'arrêter · Mental de course",
+      contenu: "Course avec obstacle cognitif (compter les tours, répondre à une question entre les tours) · VMA 75 %",
+      organisation: "Individuel · Retour collectif sur les stratégies mentales utilisées",
+      eval: "FT atteint · Stratégie décrite en post-course",
+      diff: "Durée réduite pour Niv.C · Défi supplémentaire pour Niv.A (sprint final 30 m)"
+    },
+    {
+      titre: "Feedback pair-pair — Analyse collective",
+      tag: "renf", couleur: "#7c3aed", phase: "🟠 Renforcement",
+      objectif: "Donner et recevoir un retour constructif · Consolider la coopération",
+      contenu: "Présentation des fiches de la séance précédente en binôme · Identification de 2 points forts et 1 axe d'amélioration · Formulation d'objectif commun",
+      organisation: "Binômes stables depuis la séance 3",
+      eval: "Qualité du feedback (grille 3 critères)",
+      diff: "Modèle de retour fourni pour Niv.C · Libre pour Niv.A"
+    },
+    {
+      titre: "Séance mixte — Course + atelier technique",
+      tag: "renf", couleur: "#7c3aed", phase: "🟠 Renforcement",
+      objectif: "Combiner endurance et technique de course · Améliorer l'économie de foulée",
+      contenu: "15 min course · Atelier : foulée, appui, relâchement (10 min) · Reprise course 10 min · Bilan 5 min",
+      organisation: "Alternance grand groupe / ateliers individuels",
+      eval: "Avant/après : perception de l'effort sur même distance",
+      diff: "Atelier simplifié pour Niv.C (posture uniquement)"
+    },
+    {
+      titre: "Course en relais pédagogique",
+      tag: "renf", couleur: "#7c3aed", phase: "🟠 Renforcement",
+      objectif: "Maintenir l'allure en situation ludique · Coopération renforcée",
+      contenu: "Équipes de 4 : chaque coureur fait 2 tours à VMA cible · Le suivant part dès retour · Total équipe = 8 tours",
+      organisation: "Équipes de niveau homogène",
+      eval: "Régularité de chaque coureur dans l'équipe · Score collectif",
+      diff: "Niv.C : 1 tour par coureur · Niv.A : 3 tours + bilan tactique"
+    },
+    {
+      titre: "Analyse pluriséance — Bilan de mi-cycle",
+      tag: "renf", couleur: "#7c3aed", phase: "🟠 Renforcement",
+      objectif: "Identifier sa progression · Réajuster les objectifs pour la 2ème partie du cycle",
+      contenu: "Comparaison des fiches S1 à Sx · Courbe de progression individuelle · Formulation de l'objectif final",
+      organisation: "Individuel puis échange en binôme · Présentation voluntaire en grand groupe",
+      eval: "Fiche bilan mi-cycle complétée · Objectif formulé",
+      diff: "Tableau de comparaison guidé pour Niv.C · Construction autonome pour Niv.A"
+    }
+  ],
+  eval: [
+    {
+      titre: "Évaluation formative — Bilan de progression",
+      tag: "eval", couleur: "#059669", phase: "🟢 Évaluation",
+      objectif: "Mesurer les acquis avant l'évaluation sommative · Identifier les derniers axes de travail",
+      contenu: "Course dans les conditions d'évaluation · Notation par pairs · Retour individualisé de l'enseignant",
+      organisation: "Conditions officielles · Jury composé de 2 élèves par coureur",
+      eval: "Grille APD provisoire · Note indicative /20 communiquée",
+      diff: "Régulation ciblée pour Niv.C · Défi de performance pour Niv.A"
+    },
+    {
+      titre: "Évaluation sommative officielle",
+      tag: "eval", couleur: "#059669", phase: "🟢 Évaluation",
+      objectif: "Évaluation certifiante · Application des barèmes officiels OP 2009",
+      contenu: "Course officielle · Grille APD 2026 : Performance (/6) + Régularité (/6) + Cible (/8) = /20",
+      organisation: "Conditions officielles · Enseignant + jury élèves",
+      eval: "Note /20 · Classement A/B/C · Bulletin de performance",
+      diff: "Aucune différenciation sur l'évaluation sommative"
+    },
+    {
+      titre: "Bilan de cycle — Auto-évaluation finale",
+      tag: "eval", couleur: "#059669", phase: "🟢 Évaluation",
+      objectif: "Construire le bilan personnel du cycle · Valoriser la progression",
+      contenu: "Remplissage du carnet de cycle · Comparaison VMA initiale vs finale · Lettre à soi-même pour le prochain cycle",
+      organisation: "Individuel puis partage collectif volontaire",
+      eval: "Carnet de cycle complet · Auto-évaluation cohérente",
+      diff: "Niv.C : trame guidée · Niv.A : libre + conseil pour prochain cycle"
+    }
+  ]
+};
+
+// --- Moteur principal de génération ---
+function genererCycle() {
+  const niveauVal = document.getElementById('plan-niveau').value;
+  const nbSeances = parseInt(document.getElementById('plan-nb-seances').value);
+  const freq = parseInt(document.getElementById('plan-freq').value);
+  const duree = parseInt(document.getElementById('plan-duree').value);
+  const piste = parseInt(document.getElementById('plan-piste').value);
+
+  const isLycee = ['TC','1BAC','2BAC'].includes(niveauVal);
+  const profil = isLycee ? PLAN_DATA.lycee : PLAN_DATA.college;
+  const nbSemaines = Math.round(nbSeances / freq);
+
+  // Afficher le résumé
+  const resumeEl = document.getElementById('plan-resume');
+  const pill = isLycee ? 'plan-pill lycee' : 'plan-pill college';
+  resumeEl.innerHTML = `
+    <div class="info-tip">📚 <strong>${niveauVal}</strong></div>
+    <div class="info-tip">📅 <strong>${nbSeances} séances</strong> · ${nbSemaines} semaines</div>
+    <div class="info-tip">⏱️ <strong>${duree} min</strong>/séance</div>
+    <div class="info-tip">🏃 Piste <strong>${piste} m</strong></div>
+    <div class="info-tip">🎯 VMA cible : <strong>${profil.vmaBase}–${profil.vmaMax} %</strong></div>
+  `;
+
+  // Générer le planning des séances
+  const planning = distribuerSeances(nbSeances, isLycee);
+
+  // Construire le HTML
+  const out = document.getElementById('plan-output');
+  out.innerHTML = buildCompetencesHTML(profil, niveauVal) +
+    buildChronogrammeHTML(planning, nbSeances, niveauVal, nbSemaines, freq, isLycee) +
+    buildSeancesDetaillees(planning, duree, niveauVal, isLycee) +
+    buildIndicateursHTML(profil) +
+    buildExportButtons(planning, niveauVal, nbSeances, duree);
+}
+
+// Distribuer les séances intelligemment selon le nb total
+function distribuerSeances(total, isLycee) {
+  // Règles de distribution : diag=1-2, eval=1-2(+1 si total>=8), reste=acq+renf
+  let nDiag = total <= 5 ? 1 : 2;
+  let nEval = total <= 5 ? 1 : total <= 8 ? 2 : 3;
+  let nMiddle = total - nDiag - nEval;
+
+  // Répartition acq/renf selon la taille
+  let nAcq, nRenf;
+  if (nMiddle <= 2) { nAcq = nMiddle; nRenf = 0; }
+  else if (nMiddle <= 4) { nAcq = Math.ceil(nMiddle * 0.6); nRenf = nMiddle - nAcq; }
+  else { nAcq = Math.ceil(nMiddle * 0.5); nRenf = nMiddle - nAcq; }
+
+  const planning = [];
+  let diagPool = [...SEANCE_POOL.diag];
+  let acqPool = [...SEANCE_POOL.acq];
+  let renfPool = [...SEANCE_POOL.renf];
+  let evalPool = [...SEANCE_POOL.eval];
+
+  // Pour lycée : adapter les contenus
+  function adaptLycee(s) {
+    if (!isLycee) return s;
+    return Object.assign({}, s, {
+      contenu: s.contenu.replace('VMA 70', 'VMA 80').replace('VMA 70–80', 'VMA 80–85').replace('≤ 15 sec', '≤ 8 sec'),
+      eval: s.eval.replace('≤ 15 sec', '≤ 8 sec').replace('≤ 12 sec', '≤ 8 sec')
+    });
+  }
+
+  for (let i = 0; i < nDiag; i++) {
+    planning.push(adaptLycee(diagPool[i % diagPool.length]));
+  }
+  for (let i = 0; i < nAcq; i++) {
+    planning.push(adaptLycee(acqPool[i % acqPool.length]));
+  }
+  for (let i = 0; i < nRenf; i++) {
+    planning.push(adaptLycee(renfPool[i % renfPool.length]));
+  }
+  for (let i = 0; i < nEval; i++) {
+    planning.push(adaptLycee(evalPool[i % evalPool.length]));
+  }
+
+  // Numéroter
+  return planning.map((s, i) => Object.assign({}, s, { num: i + 1 }));
+}
+
+// --- Constructeurs HTML ---
+function buildCompetencesHTML(profil, niveauVal) {
+  const pillClass = profil.pill;
+  const rows = profil.objectifs.map(o => `
+    <tr>
+      <td><strong>${o.gen}</strong></td>
+      <td>${o.spec}</td>
+      <td>${o.indicateur}</td>
+    </tr>`).join('');
+  const comps = profil.competences.map(c => `
+    <div class="competence-badge"><strong>${c.titre} :</strong> ${c.texte}</div>`).join('');
+  return `
+  <div class="plan-cycle-card" style="margin-bottom:18px;">
+    <div class="plan-cycle-header">
+      <div>
+        <div class="title">🎯 Compétences Visées — ${niveauVal}
+          <span class="plan-pill ${pillClass}" style="margin-left:8px;">${profil.pillLabel}</span>
+        </div>
+        <div class="meta">Référentiel des Orientations Pédagogiques · APS : Course de Durée</div>
+      </div>
+    </div>
+    <div class="plan-cycle-body">
+      ${comps}
+      <table class="obj-table" style="margin-top:16px;">
+        <thead><tr><th>Objectif Général</th><th>Objectifs Spécifiques</th><th>Indicateurs de réussite</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function buildChronogrammeHTML(planning, total, niveauVal, semaines, freq, isLycee) {
+  const pillClass = isLycee ? 'lycee' : 'college';
+  const tagColors = { diag: '#0891b2', acq: '#1d4ed8', renf: '#7c3aed', eval: '#059669' };
+  const phaseColors = { diag: 'phase-eval', acq: 'phase-acq', renf: 'phase-acq', eval: 'phase-bilan' };
+
+  let rows = planning.map((s, i) => {
+    const isLast = i === planning.length - 1;
+    const lastClass = isLast ? 'chrono-row-last' : '';
+    return `
+      <div class="chrono-cell seq-num" style="background:${tagColors[s.tag]}">${s.num}</div>
+      <div class="chrono-cell ${phaseColors[s.tag]} ${lastClass}">
+        <strong>${s.titre}</strong><br>
+        <span style="font-size:11px;color:var(--muted);">${s.phase}</span>
+      </div>
+      <div class="chrono-cell ${phaseColors[s.tag]} ${lastClass}">${s.contenu.split('·')[0].trim()}</div>
+      <div class="chrono-cell ${phaseColors[s.tag]} ${lastClass}">${s.eval.split('·')[0].trim()}</div>`;
+  }).join('');
+
+  return `
+  <div class="plan-cycle-card" style="margin-bottom:18px;">
+    <div class="plan-cycle-header">
+      <div>
+        <div class="title">📅 Chronogramme du Cycle — ${total} Séances
+          <span class="plan-pill ${pillClass}" style="margin-left:8px;">${niveauVal}</span>
+        </div>
+        <div class="meta">Durée estimée : ${semaines} semaines · Fréquence : ${freq} séance(s)/semaine</div>
+      </div>
+      <button class="download-btn" onclick="exportCycleCSV()">⬇️ Exporter le cycle CSV</button>
+    </div>
+    <div class="plan-cycle-body" style="overflow-x:auto;">
+      <div class="chrono-grid" style="min-width:600px;">
+        <div class="chrono-cell header">N°</div>
+        <div class="chrono-cell header">Séance / Objectif</div>
+        <div class="chrono-cell header">Contenu principal</div>
+        <div class="chrono-cell header">Évaluation</div>
+        ${rows}
+      </div>
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+        <span style="font-size:11px;background:#e0f2fe;color:#0369a1;padding:3px 10px;border-radius:4px;font-weight:600;">🔵 Diagnostic</span>
+        <span style="font-size:11px;background:#dbeafe;color:#1e40af;padding:3px 10px;border-radius:4px;font-weight:600;">🟡 Acquisition</span>
+        <span style="font-size:11px;background:#ede9fe;color:#5b21b6;padding:3px 10px;border-radius:4px;font-weight:600;">🟠 Renforcement</span>
+        <span style="font-size:11px;background:#d1fae5;color:#065f46;padding:3px 10px;border-radius:4px;font-weight:600;">🟢 Évaluation</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildSeancesDetaillees(planning, duree, niveauVal, isLycee) {
+  const tMise = Math.round(duree * 0.15);
+  const tBilan = Math.round(duree * 0.15);
+  const tCorps = duree - tMise - tBilan;
+  const tagColors = { diag: '#0891b2', acq: '#1d4ed8', renf: '#7c3aed', eval: '#059669' };
+
+  const cards = planning.map(s => `
+    <div class="plan-cycle-card" style="margin-bottom:12px;">
+      <div class="plan-cycle-header" style="background:${tagColors[s.tag]};">
+        <div>
+          <div class="title">Séance ${s.num} — ${s.titre}</div>
+          <div class="meta">${s.phase} · Durée : ${duree} min · ${niveauVal}</div>
+        </div>
+      </div>
+      <div class="plan-cycle-body">
+        <table class="obj-table">
+          <thead><tr><th>Phase</th><th>Durée</th><th>Objectif</th><th>Contenu / Situation</th><th>Organisation</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>🔴 Mise en train</strong></td>
+              <td>${tMise} min</td>
+              <td>Activation cardio · Mobilisation articulaire · Rappel de l'objectif</td>
+              <td>Footing léger ${Math.round(tMise*0.5)} min · Gammes de course · Rappel verbal de la cible VMA</td>
+              <td>Collectif</td>
+            </tr>
+            <tr>
+              <td><strong>🔵 Corps de séance</strong></td>
+              <td>${tCorps} min</td>
+              <td>${s.objectif}</td>
+              <td>${s.contenu}</td>
+              <td>${s.organisation}</td>
+            </tr>
+            <tr>
+              <td><strong>🟢 Bilan</strong></td>
+              <td>${tBilan} min</td>
+              <td>Auto-évaluation · Calcul des écarts · Formulation de l'objectif suivant</td>
+              <td>Remplissage fiche · Échanges binôme · Objectif S${s.num+1 <= planning.length ? s.num+1 : '—'}</td>
+              <td>Individuel → Collectif</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="eval-grid" style="margin-top:12px;">
+          <div class="eval-item">
+            <div class="eval-item-title">📊 Évaluation</div>
+            <div style="font-size:12px;">${s.eval}</div>
+          </div>
+          <div class="eval-item">
+            <div class="eval-item-title">🔧 Différenciation</div>
+            <div style="font-size:12px;">${s.diff}</div>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  return `
+  <div style="margin-bottom:6px;">
+    <div class="section-divider"><span>📄 Fiches Séances Détaillées (${planning.length} séances)</span></div>
+    <details open>
+      <summary style="cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;
+        padding:10px 16px;background:var(--stripe);border:1px solid var(--border);border-radius:7px;
+        margin-bottom:12px;list-style:none;display:flex;align-items:center;gap:8px;">
+        ▼ Afficher / Masquer les fiches séances
+      </summary>
+      ${cards}
+    </details>
+  </div>`;
+}
+
+function buildIndicateursHTML(profil) {
+  const bars = profil.indicateurs.map(ind => `
+    <div>
+      <div class="progress-bar-label">
+        <span>${ind.label}</span><span>Cible : ${ind.cible}%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" style="width:${ind.cible}%;background:${ind.color};"></div>
+      </div>
+    </div>`).join('');
+  return `
+  <div class="plan-cycle-card" style="margin-bottom:18px;">
+    <div class="plan-cycle-header"><span>📈 Indicateurs de Progression du Cycle</span></div>
+    <div class="plan-cycle-body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;">
+        ${bars}
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildExportButtons(planning, niveauVal, total, duree) {
+  return `
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;">
+    <button class="download-btn" onclick="exportCycleCSV()">⬇️ Exporter cycle complet (CSV)</button>
+    <button class="download-btn" onclick="exportFichesPDF()">⬇️ Exporter fiches séances (CSV)</button>
+  </div>`;
+}
+
+// Export CSV du cycle complet
+function exportCycleCSV() {
+  const niveauVal = document.getElementById('plan-niveau').value;
+  const duree = document.getElementById('plan-duree').value;
+  const nbSeances = document.getElementById('plan-nb-seances').value;
+  const freq = document.getElementById('plan-freq').value;
+
+  const isLycee = ['TC','1BAC','2BAC'].includes(niveauVal);
+  const planning = distribuerSeances(parseInt(nbSeances), isLycee);
+
+  const rows = [
+    ['N°','Phase','Titre','Objectif','Contenu','Organisation','Évaluation','Différenciation'],
+    ...planning.map(s => [
+      s.num, s.phase, s.titre, s.objectif, s.contenu, s.organisation, s.eval, s.diff
+    ])
+  ];
+  const csv = rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n');
+  const blob = new Blob(['\uFEFF' + csv], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Projet_Cycle_CoursDuree_${niveauVal}_${nbSeances}seances.csv`;
+  a.click();
+}
+
+function exportFichesPDF() {
+  exportCycleCSV(); // même export pour l'instant
+}
+
+// Ancien downloadChrono / downloadSeance conservés pour compatibilité
+function downloadChrono(niveau) { exportCycleCSV(); }
+function downloadSeance(niveau) { exportCycleCSV(); }
+
+// ════════════════════════════════════════
+//  LANDING → APP  TRANSITION
+// ════════════════════════════════════════
+function lpLancer(e) {
+  if (e) e.preventDefault();
+  var lp = document.getElementById('lp');
+  lp.classList.add('lp-hiding');
+  setTimeout(function() {
+    lp.classList.add('lp-gone');
+    window.scrollTo(0, 0);
+  }, 680);
+}
+
+function lpRetour() {
+  var lp = document.getElementById('lp');
+  lp.classList.remove('lp-gone');
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      lp.classList.remove('lp-hiding');
+    });
+  });
+  window.scrollTo(0, 0);
+}
+
+// ════════════════════════════════════════
+//  LANDING PAGE JS  (scope isolé)
+// ════════════════════════════════════════
+;(function() {
+
+// ── OUVRIR LA PLATEFORME ──
+function _lp_ouvrirPlateforme(e) {
+  // Fonctionne que les fichiers soient dans le même dossier ou non
+  // On laisse le comportement href normal (navigation directe)
+  // Si vous êtes dans Claude.ai, téléchargez les deux fichiers dans le même dossier
+}
+
+// ── FEATURE CARD MOUSE GLOW ──
+function trackMouse(e, el) {
+  const r = el.getBoundingClientRect();
+  const x = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%';
+  const y = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%';
+  el.style.setProperty('--mx', x);
+  el.style.setProperty('--my', y);
+}
+
+// ── PARTICLES ──
+const pContainer = document.getElementById('particles');
+function spawnParticle() {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 3 + 1;
+  const left = Math.random() * 100;
+  const dur = Math.random() * 12 + 8;
+  const delay = Math.random() * 6;
+  p.style.cssText = `width:${size}px;height:${size}px;left:${left}%;bottom:0;animation-duration:${dur}s;animation-delay:${delay}s;`;
+  pContainer.appendChild(p);
+  setTimeout(() => { if (p.parentNode) p.remove(); }, (dur + delay) * 1000 + 500);
+}
+for (let i = 0; i < 30; i++) spawnParticle();
+setInterval(spawnParticle, 600);
+
+// ── REVEAL ON SCROLL ──
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+reveals.forEach(r => obs.observe(r));
+
+// ── ANIMATED COUNTERS ──
+function animCounter(el, target, suffix) {
+  let current = 0;
+  const step = target / 60;
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = Math.round(current) + (suffix || '');
+    if (current >= target) clearInterval(timer);
+  }, 25);
+}
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      animCounter(el, +el.dataset.target, el.dataset.suffix || '');
+      counterObs.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObs.observe(el));
+
+// ── LIVE PREVIEW PANEL ──
+const liveObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    let n = 0;
+    const timer = setInterval(() => {
+      n = Math.min(n + 1, 28);
+      const totalEl = document.getElementById('vs-total');
+      const avgEl   = document.getElementById('vs-avg');
+      const aEl     = document.getElementById('vs-a');
+      const bEl     = document.getElementById('vs-b');
+      if (totalEl) totalEl.textContent = n;
+      if (avgEl)   avgEl.textContent = (12.4 + n * 0.02).toFixed(1);
+      if (aEl)     aEl.textContent = Math.floor(n * 0.28);
+      if (bEl)     bEl.textContent = Math.floor(n * 0.46);
+      if (n >= 28) clearInterval(timer);
+    }, 60);
+    document.querySelectorAll('.mini-bar-fill').forEach(bar => {
+      setTimeout(() => { bar.style.width = bar.dataset.w + '%'; }, 300);
+    });
+    liveObs.unobserve(e.target);
+  });
+}, { threshold: 0.3 });
+const whyVis = document.querySelector('.why-visual');
+if (whyVis) liveObs.observe(whyVis);
+
+// ── APS TRACK ──
+const apsData = [
+  { emoji: '🏃', name: 'Course de Durée',   cat: 'Athlétisme' },
+  { emoji: '⚽', name: 'Football',           cat: 'Sports collectifs' },
+  { emoji: '🏐', name: 'Volley-ball',        cat: 'Sports collectifs' },
+  { emoji: '🏀', name: 'Basket-ball',        cat: 'Sports collectifs' },
+  { emoji: '🤸', name: 'Gymnastique',        cat: 'Activités gymniques' },
+  { emoji: '🏊', name: 'Natation',           cat: 'Activités aquatiques' },
+  { emoji: '🎾', name: 'Tennis de table',    cat: 'Sports de raquette' },
+  { emoji: '🏋️', name: 'Haltérophilie',     cat: 'Sports de force' },
+  { emoji: '🤼', name: 'Lutte',              cat: 'Arts martiaux' },
+  { emoji: '🥊', name: 'Boxe',              cat: 'Arts martiaux' },
+  { emoji: '💨', name: 'Course de vitesse',  cat: 'Athlétisme' },
+  { emoji: '🦘', name: 'Saut en longueur',   cat: 'Athlétisme' },
+  { emoji: '🎽', name: 'Cross-country',      cat: 'Athlétisme' },
+  { emoji: '🤾', name: 'Handball',           cat: 'Sports collectifs' },
+  { emoji: '🎯', name: 'Lancer du javelot',  cat: 'Athlétisme' },
+];
+const track = document.getElementById('aps-track');
+if (track) {
+  const doubled = [...apsData, ...apsData];
+  doubled.forEach(a => {
+    const card = document.createElement('div');
+    card.className = 'aps-card';
+    card.innerHTML = `<span class="aps-emoji">${a.emoji}</span><div class="aps-name">${a.name}</div><div class="aps-cat">${a.cat}</div>`;
+    track.appendChild(card);
+  });
+}
+
+// ── SMOOTH SCROLL for anchor links ──
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const _h = a.getAttribute('href'); if (!_h || _h === '#') return; const target = document.querySelector(_h);
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// ── PARALLAX HERO ──
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  const heroContent = document.querySelector('.hero-content');
+  const orbital = document.querySelector('.orbital-container');
+  if (heroContent) heroContent.style.transform = `translateY(${y * 0.25}px)`;
+  if (orbital) orbital.style.transform = `translate(-50%,-50%) rotate(${y * 0.02}deg)`;
+});
+
+})();
+
+</script>
+</body>
+</html>
