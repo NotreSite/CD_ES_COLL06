@@ -3150,6 +3150,10 @@ function onVmaModeChange(selectEl) {
   const val = selectEl.value;
   vmaModeOverride = (val === 'auto') ? null : parseFloat(val);
   buildAllBaremeContent();
+  // Le mode du %VMA cible (dynamique/manuel) change le seuil de notation :
+  // il faut donc recalculer toutes les notes déjà saisies (y compris les
+  // élèves de démonstration), pas seulement redessiner le tableau du barème.
+  recalcAll();
 }
 
 function openBaremeModal() {
@@ -3865,7 +3869,10 @@ function getPerformanceScore(vma, gender, totalSecs, level) {
   const n = bareme.vmaMax;
   if (totalSecs == null || isNaN(totalSecs) || !vma || vma <= 0) return 0;
   const distance = getGenderDist(gender);
-  const thresholds = computeVmaThresholds(vma, distance, gender, undefined, n); // [tN, t(N-1), …, t1]
+  // Respecte le mode manuel du %VMA cible (vmaModeOverride) s'il est actif,
+  // sinon retombe sur la courbe dynamique (undefined → calcul automatique).
+  const overridePct = (typeof vmaModeOverride === 'number') ? vmaModeOverride : undefined;
+  const thresholds = computeVmaThresholds(vma, distance, gender, overridePct, n); // [tN, t(N-1), …, t1]
   for (let i = 0; i < thresholds.length; i++) {
     if (totalSecs <= thresholds[i]) return n - i;
   }
