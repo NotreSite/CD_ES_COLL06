@@ -6021,7 +6021,7 @@ function printObservationGrid() {
       <td class="nom">${esc2(s.nom)}</td>
       <td class="g">${s.genre === 'F' ? 'F' : 'M'}</td>
       <td class="vma">${s.vma > 0 ? esc2(String(s.vma)) : ''}</td>
-      <td class="cible">A&nbsp;&nbsp;B&nbsp;&nbsp;C</td>
+      <td class="cible"></td>
       ${cellBlank}
     </tr>`;
   });
@@ -6032,7 +6032,7 @@ function printObservationGrid() {
     const even = num % 2 === 0 ? ' even' : '';
     rows += `<tr class="${even}">
       <td class="num">${num}</td>
-      <td class="nom"></td><td class="g"></td><td class="vma"></td><td class="cible">A&nbsp;&nbsp;B&nbsp;&nbsp;C</td>
+      <td class="nom"></td><td class="g"></td><td class="vma"></td><td class="cible"></td>
       ${cellBlank}
     </tr>`;
   }
@@ -6087,7 +6087,7 @@ function printObservationGrid() {
   .nom   { width: ${LARG_NOM}mm; }
   .g     { width: ${LARG_G}mm; font-weight: 700; }
   .vma   { width: ${LARG_VMA}mm; }
-  .cible { width: ${LARG_CIBLE}mm; font-weight: 600; color: #1a56db; }
+  .cible { width: ${LARG_CIBLE}mm; }
   .pass  { width: ${lp}; }
   .cell  { width: ${lp}; }
 
@@ -6151,7 +6151,7 @@ function printObservationGrid() {
       <th class="nom">Nom</th>
       <th class="g">Genre</th>
       <th class="vma">VMA</th>
-      <th class="cible">Qualité d'exécution<br><span style="font-weight:400;font-size:8.5px;">A · B · C</span></th>
+      <th class="cible">Qualité d'exécution (A/B/C)</th>
       ${passHeads}
     </tr>
   </thead>
