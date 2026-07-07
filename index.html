@@ -3123,8 +3123,9 @@ function getNoteParTour(gender, netLapTimes, level) {
 
 // ── V12.0 : mode hybride DYNAMIQUE / MANUEL pour le %VMA cible ──
 // null = mode dynamique (courbe automatique selon la distance) ;
-// sinon, valeur numérique en % appliquée telle quelle aux deux tableaux (♂/♀).
-let vmaModeOverride = null;
+// sinon, valeur numérique en % appliquée telle quelle au tableau du genre concerné.
+// Chaque genre (M/F) a désormais son propre mode, indépendant l'un de l'autre.
+let vmaModeOverride = { M: null, F: null };
 
 /**
  * Formatage horaire dédié au barème (V12.0) — gère les temps > 60 min.
@@ -3146,9 +3147,9 @@ function formatBaremeTime(secs) {
   return '2:00:00';
 }
 
-function onVmaModeChange(selectEl) {
+function onVmaModeChange(selectEl, gender) {
   const val = selectEl.value;
-  vmaModeOverride = (val === 'auto') ? null : parseFloat(val);
+  vmaModeOverride[gender] = (val === 'auto') ? null : parseFloat(val);
   buildAllBaremeContent();
   // Le mode du %VMA cible (dynamique/manuel) change le seuil de notation :
   // il faut donc recalculer toutes les notes déjà saisies (y compris les
@@ -3317,23 +3318,11 @@ function buildAllBaremeContent() {
 
   const intro = document.createElement('div');
   intro.className = 'bareme-intro-row';
-  intro.innerHTML = `<span style="background:rgba(232,184,75,0.15);color:var(--clr-accent);border-radius:6px;padding:2px 9px;font-size:11px;white-space:nowrap;">PERFORMANCE /${n} — ${vmaModeOverride === null ? 'DYNAMIQUE' : 'MANUEL'}</span>
-    <span class="bareme-intro-desc" style="font-size:11px;color:var(--clr-muted);">Barème sur ${n} paliers (Niveau Scolaire : ${esc(getLevel())}) — seuils de temps calculés pour chaque VMA (2 à 18 km/h)${vmaModeOverride === null ? ', selon la distance configurée et le %VMA cible décroissant.' : ', avec un %VMA cible fixé manuellement pour les deux tableaux.'}</span>`;
+  const introModeM = vmaModeOverride.M === null ? 'DYNAMIQUE' : 'MANUEL';
+  const introModeF = vmaModeOverride.F === null ? 'DYNAMIQUE' : 'MANUEL';
+  intro.innerHTML = `<span style="background:rgba(232,184,75,0.15);color:var(--clr-accent);border-radius:6px;padding:2px 9px;font-size:11px;white-space:nowrap;">PERFORMANCE /${n} — ♂ ${introModeM} · ♀ ${introModeF}</span>
+    <span class="bareme-intro-desc" style="font-size:11px;color:var(--clr-muted);">Barème sur ${n} paliers (Niveau Scolaire : ${esc(getLevel())}) — seuils de temps calculés pour chaque VMA (2 à 18 km/h), mode réglable séparément pour les garçons et les filles ci-dessous.</span>`;
   container.appendChild(intro);
-
-  // ── V12.0 : sélecteur hybride DYNAMIQUE / MANUEL du %VMA cible ──
-  const modeRow = document.createElement('div');
-  modeRow.className = 'vma-mode-row';
-  const optionsHtml = ['<option value="auto">🔄 Dynamique (auto, selon distance)</option>']
-    .concat(Array.from({ length: 10 }, (_, i) => 80 + i * 5)
-      .map(p => `<option value="${p}">${p}% VMA (manuel)</option>`))
-    .join('');
-  modeRow.innerHTML = `
-    <label class="vma-mode-label" for="vma-mode-select">🎚️ Mode de calcul du %VMA cible :</label>
-    <select id="vma-mode-select" class="vma-mode-select" onchange="onVmaModeChange(this)">${optionsHtml}</select>`;
-  container.appendChild(modeRow);
-  const modeSelect = modeRow.querySelector('#vma-mode-select');
-  modeSelect.value = (vmaModeOverride === null) ? 'auto' : String(vmaModeOverride);
 
   const grid = document.createElement('div');
   grid.className = 'bareme-grid';
@@ -3344,7 +3333,8 @@ function buildAllBaremeContent() {
 
   ['M', 'F'].forEach(gender => {
     const distance = getGenderDist(gender);
-    const pct = (vmaModeOverride === null) ? getVmaTargetPercent(distance, gender) : vmaModeOverride;
+    const genderOverride = vmaModeOverride[gender];
+    const pct = (genderOverride === null) ? getVmaTargetPercent(distance, gender) : genderOverride;
     const pctStr = (Math.round(pct * 10) / 10).toString();
 
     const wrapper = document.createElement('div');
@@ -3354,8 +3344,23 @@ function buildAllBaremeContent() {
     head.style.cssText = 'padding:9px 12px;border-bottom:1px solid var(--clr-border);display:flex;align-items:center;gap:6px;flex-wrap:wrap;';
     head.innerHTML = `<span style="color:${gender === 'M' ? 'var(--clr-accent2)' : '#e879f9'};font-size:16px;font-weight:700;">${gender === 'M' ? '♂' : '♀'}</span>
       <span style="font-size:12px;font-weight:600;color:var(--clr-text);">${gender === 'M' ? 'Garçons' : 'Filles'}</span>
-      <span style="font-size:10px;color:var(--clr-muted);margin-left:auto;">${distance} m · cible ${pctStr}% VMA${vmaModeOverride === null ? '' : ' (manuel)'}</span>`;
+      <span style="font-size:10px;color:var(--clr-muted);margin-left:auto;">${distance} m · cible ${pctStr}% VMA${genderOverride === null ? '' : ' (manuel)'}</span>`;
     wrapper.appendChild(head);
+
+    // ── V12.0 : sélecteur hybride DYNAMIQUE / MANUEL du %VMA cible, par genre ──
+    const modeRow = document.createElement('div');
+    modeRow.className = 'vma-mode-row';
+    modeRow.style.cssText = 'padding:8px 12px;border-bottom:1px solid var(--clr-border);';
+    const optionsHtml = ['<option value="auto">🔄 Dynamique (auto, selon distance)</option>']
+      .concat(Array.from({ length: 10 }, (_, i) => 80 + i * 5)
+        .map(p => `<option value="${p}">${p}% VMA (manuel)</option>`))
+      .join('');
+    modeRow.innerHTML = `
+      <label class="vma-mode-label" for="vma-mode-select-${gender}">🎚️ Mode de calcul du %VMA cible :</label>
+      <select id="vma-mode-select-${gender}" class="vma-mode-select" onchange="onVmaModeChange(this, '${gender}')">${optionsHtml}</select>`;
+    wrapper.appendChild(modeRow);
+    const modeSelect = modeRow.querySelector(`#vma-mode-select-${gender}`);
+    modeSelect.value = (genderOverride === null) ? 'auto' : String(genderOverride);
 
     const scroll = document.createElement('div');
     scroll.style.cssText = 'max-height:380px;overflow-y:auto;';
@@ -3367,7 +3372,7 @@ function buildAllBaremeContent() {
     const steps = Math.round((VMA_MAX - VMA_MIN) / VMA_STEP);
     for (let i = 0; i <= steps; i++) {
       const v = Math.round((VMA_MIN + i * VMA_STEP) * 10) / 10;
-      const thresholds = computeVmaThresholds(v, distance, gender, vmaModeOverride === null ? undefined : vmaModeOverride, n); // [tN, t(N-1), …, t1]
+      const thresholds = computeVmaThresholds(v, distance, gender, genderOverride === null ? undefined : genderOverride, n); // [tN, t(N-1), …, t1]
       const tr = document.createElement('tr');
       tr.innerHTML = `<td><strong>${v.toFixed(1)}</strong></td>` +
         thresholds.map(t => `<td class="mono" style="font-size:11px;">${formatBaremeTime(t)}</td>`).join('');
@@ -3383,9 +3388,13 @@ function buildAllBaremeContent() {
 
   const hint = document.createElement('div');
   hint.style.cssText = 'margin-top:12px;font-size:11px;color:var(--clr-muted2);';
-  hint.innerHTML = vmaModeOverride === null
-    ? `💡 Le barème ci-dessus se met à jour automatiquement dès que vous modifiez la distance totale (♂/♀) ou le Niveau Scolaire dans la configuration. La note d'un élève est attribuée en comparant son temps réalisé aux seuils correspondant à sa propre VMA.`
-    : `💡 Mode manuel actif : le %VMA cible (${(Math.round(vmaModeOverride*10)/10)}%) est appliqué directement aux deux tableaux, sans tenir compte de la courbe de décroissance liée à la distance. Repassez en « Dynamique » pour revenir au calcul automatique.`;
+  const hintM = vmaModeOverride.M === null
+    ? `♂ Garçons : mode dynamique (courbe automatique selon la distance).`
+    : `♂ Garçons : mode manuel actif à ${(Math.round(vmaModeOverride.M*10)/10)}% VMA.`;
+  const hintF = vmaModeOverride.F === null
+    ? `♀ Filles : mode dynamique (courbe automatique selon la distance).`
+    : `♀ Filles : mode manuel actif à ${(Math.round(vmaModeOverride.F*10)/10)}% VMA.`;
+  hint.innerHTML = `💡 ${hintM} ${hintF} Le barème et les notes déjà saisies se mettent à jour automatiquement dès que vous changez le mode, la distance (♂/♀) ou le Niveau Scolaire.`;
   container.appendChild(hint);
 }
 
@@ -3487,11 +3496,13 @@ function computeSumEcarts(gender, vma, lapTimes) {
  * de sens pédagogique une fois la distance modifiée.
  */
 function onDistanceChange() {
-  if (vmaModeOverride !== null) {
-    vmaModeOverride = null;
-    const sel = document.getElementById('vma-mode-select');
-    if (sel) sel.value = 'auto';
-  }
+  ['M', 'F'].forEach(gender => {
+    if (vmaModeOverride[gender] !== null) {
+      vmaModeOverride[gender] = null;
+      const sel = document.getElementById('vma-mode-select-' + gender);
+      if (sel) sel.value = 'auto';
+    }
+  });
   onConfigChange();
 }
 
@@ -3869,9 +3880,10 @@ function getPerformanceScore(vma, gender, totalSecs, level) {
   const n = bareme.vmaMax;
   if (totalSecs == null || isNaN(totalSecs) || !vma || vma <= 0) return 0;
   const distance = getGenderDist(gender);
-  // Respecte le mode manuel du %VMA cible (vmaModeOverride) s'il est actif,
-  // sinon retombe sur la courbe dynamique (undefined → calcul automatique).
-  const overridePct = (typeof vmaModeOverride === 'number') ? vmaModeOverride : undefined;
+  // Respecte le mode manuel du %VMA cible (vmaModeOverride) s'il est actif
+  // pour ce genre précis, sinon retombe sur la courbe dynamique (undefined → calcul automatique).
+  const genderOverride = vmaModeOverride[gender];
+  const overridePct = (typeof genderOverride === 'number') ? genderOverride : undefined;
   const thresholds = computeVmaThresholds(vma, distance, gender, overridePct, n); // [tN, t(N-1), …, t1]
   for (let i = 0; i < thresholds.length; i++) {
     if (totalSecs <= thresholds[i]) return n - i;
